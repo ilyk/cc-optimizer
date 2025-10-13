@@ -1,0 +1,48 @@
+# ktlint Configuration
+# https://pinterest.github.io/ktlint/
+
+[*.{kt,kts}]
+
+# Kotlin Official Style Guide
+ktlint_code_style = android_studio
+
+# Indentation
+indent_size = 4
+indent_style = space
+continuation_indent_size = 4
+
+# Line length
+max_line_length = 120
+ktlint_ignore_back_ticked_identifier = false
+
+# Import ordering
+ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
+
+# Spacing
+ij_kotlin_line_comment_at_first_column = false
+ij_kotlin_line_comment_add_space = true
+
+# Blank lines
+ij_kotlin_keep_blank_lines_in_declarations = 1
+ij_kotlin_keep_blank_lines_in_code = 1
+ij_kotlin_keep_blank_lines_before_right_brace = 0
+
+# Wrapping
+ij_kotlin_method_parameters_wrap = off
+ij_kotlin_align_multiline_parameters = false
+
+# Trailing commas (recommended for Kotlin)
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+# Star imports
+ij_kotlin_name_count_to_use_star_import = 5
+ij_kotlin_name_count_to_use_star_import_for_members = 3
+ij_kotlin_packages_to_use_import_on_demand = 
+
+# Disabled rules (can be enabled if needed)
+disabled_rules = no-wildcard-imports  # Allow wildcard imports for now
+
+# Experimental rules (opt-in)
+ktlint_experimental = enabled
+

@@ -1,0 +1,9 @@
+## This file is used to configure local settings for the Android build
+## Copy this file to local.properties and update with your paths
+
+# Location of the Android SDK on your machine
+sdk.dir=/home/YOUR_USERNAME/Android/Sdk
+
+# Uncomment and configure if you need specific NDK
+# ndk.dir=/home/YOUR_USERNAME/Android/Sdk/ndk/25.1.8937393
+

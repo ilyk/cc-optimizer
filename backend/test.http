@@ -1,0 +1,84 @@
+### Health Check
+GET http://localhost:3000/health
+
+### Register User
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "TestPass123"
+}
+
+### Login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "TestPass123"
+}
+
+### Get Profile
+GET http://localhost:3000/api/auth/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Create Link Token
+POST http://localhost:3000/api/plaid/create_link_token
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Exchange Public Token
+POST http://localhost:3000/api/plaid/exchange_public_token
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "public_token": "public-sandbox-xxx"
+}
+
+### Get Accounts
+GET http://localhost:3000/api/plaid/accounts
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Get Transactions
+POST http://localhost:3000/api/plaid/transactions
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "start_date": "2025-09-01",
+  "end_date": "2025-10-01"
+}
+
+### Get All Credit Cards
+GET http://localhost:3000/api/cards
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Save Credit Card Configuration
+POST http://localhost:3000/api/cards
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "account_id": "account-abc123",
+  "name": "Chase Freedom",
+  "mask": "1234",
+  "credit_limit": 10000.00,
+  "statement_date": 15,
+  "due_date": 10,
+  "auto_pay_enabled": true,
+  "auto_pay_amount": 1500.00
+}
+
+### Get Specific Credit Card
+GET http://localhost:3000/api/cards/account-abc123
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Delete Credit Card
+DELETE http://localhost:3000/api/cards/account-abc123
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Remove Plaid Item
+DELETE http://localhost:3000/api/plaid/items/item-abc123
+Authorization: Bearer YOUR_TOKEN_HERE
+

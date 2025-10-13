@@ -1,0 +1,302 @@
+# Credit Card Optimizer - Comprehensive .gitignore
+
+# ================================
+# SECRETS & CREDENTIALS (CRITICAL!)
+# ================================
+.env
+.env.*
+!.env.example
+local.properties
+*.key
+*.pem
+*.p12
+*.jks
+keystore.properties
+secrets/
+credentials/
+
+# ================================
+# ANDROID
+# ================================
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Generated files
+bin/
+gen/
+out/
+build/
+.gradle/
+captures/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfiles
+
+# Android Studio
+.DS_Store
+.externalNativeBuild
+.cxx
+
+# Gradle files
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# Signing files
+*.jks
+*.keystore
+
+# Captures and profiler
+captures/
+*.hprof
+
+# ================================
+# NODE.JS / BACKEND
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# ================================
+# DATABASE
+# ================================
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+data/
+!backend/data/.gitkeep
+
+# ================================
+# IDE & EDITORS
+# ================================
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# JetBrains (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# ================================
+# OPERATING SYSTEM
+# ================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# BUILD & DISTRIBUTION
+# ================================
+dist/
+release/
+*.tar.gz
+*.zip
+
+# ================================
+# TEMPORARY FILES
+# ================================
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.cache
+
+# ================================
+# MONITORING & ANALYTICS
+# ================================
+# Sentry
+.sentryclirc
+
+# ================================
+# CERTIFICATES (for pinning)
+# ================================
+# Note: Certificate pins in local.properties are gitignored
+# Public pins can be shared, but we extract them at build time
+
+# ================================
+# DOCUMENTATION (keep these)
+# ================================
+# Keep all markdown files in docs/
+# Keep README files
+!README.md
+!CHANGELOG.md
+!docs/**/*.md
+!backend/README.md
+!app/README.md
+
+# ================================
+# TESTING
+# ================================
+# Jest
+jest_*
+
+# Test reports
+test-results/
+test-report.xml
+junit.xml
+
+# ================================
+# CI/CD
+# ================================
+.github/workflows/*.log
+
+# ================================
+# MISC
+# ================================
+*.orig
+.cache/
+.parcel-cache/
+.next/
+.nuxt/

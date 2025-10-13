@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">CC Optimizer</string>
+    
+    <!-- Main Screen -->
+    <string name="main_title">Credit Card Payment Optimizer</string>
+    <string name="loading_connecting">Connecting to your bank…</string>
+    
+    <!-- Not Connected Screen -->
+    <string name="not_connected_title">Connect Your Bank Accounts</string>
+    <string name="not_connected_description">Link your credit cards via Plaid to get smart payment recommendations</string>
+    <string name="button_connect_plaid">Connect with Plaid</string>
+    
+    <!-- Recommendations View -->
+    <string name="recommendations_title">Payment Recommendations</string>
+    <string name="summary_total_cards">Total Cards: %1$d</string>
+    <string name="summary_total_due">Total Due: $%1$,.2f</string>
+    <string name="cards_needing_input_title">Action Required</string>
+    <string name="cards_needing_input_description">These cards need statement dates to calculate payment recommendations.</string>
+    <string name="button_set_date">Set Date</string>
+    <string name="no_cards_title">No Credit Cards Found</string>
+    <string name="no_cards_message">Connect your bank account to see your credit cards.</string>
+    
+    <!-- Payment Card -->
+    <string name="pay_by">Pay by: %1$s</string>
+    <string name="amount">Amount: $%1$,.2f</string>
+    <string name="balance">Balance: $%1$,.2f</string>
+    <string name="available_credit">Available: $%1$,.2f / $%2$,.2f</string>
+    <string name="days_until">%1$d days until payment</string>
+    <string name="payment_due_today">Payment due today!</string>
+    <string name="payment_due_tomorrow">Payment due tomorrow</string>
+    
+    <!-- Statement Date Input Dialog -->
+    <string name="dialog_statement_date_title">Set Statement Date</string>
+    <string name="dialog_statement_date_question">What day of the month does your statement close?</string>
+    <string name="dialog_statement_date_hint">Check your credit card statement or mobile app. Look for \'Statement Closing Date\' or \'Billing Cycle Close\'.</string>
+    <string name="dialog_statement_day_label">Day of Month (1–31)</string>
+    <string name="dialog_statement_day_placeholder">e.g., 18</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_save">Save</string>
+    <string name="card_info_format">%1$s (•••• %2$s)</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Auto (System)</string>
+    <string name="theme_choose">Choose Theme</string>
+    <string name="theme_light_description">Always light theme</string>
+    <string name="theme_dark_description">Always dark theme</string>
+    <string name="theme_auto_description">Follow system settings (Default)</string>
+    <string name="button_done">Done</string>
+    <string name="content_desc_back">Back</string>
+    <string name="content_desc_selected">Selected</string>
+    
+    <!-- Permission Dialog -->
+    <string name="permission_title">Enable Payment Reminders?</string>
+    <string name="permission_description">Get notified before your payment is due!</string>
+    <string name="permission_notifications">Notifications</string>
+    <string name="permission_notifications_desc">Push notifications for payment reminders</string>
+    <string name="permission_calendar">Calendar</string>
+    <string name="permission_calendar_desc">Add payment dates to your calendar</string>
+    <string name="permission_alarms">Alarms</string>
+    <string name="permission_alarms_desc">Set exact alarms for critical payments</string>
+    <string name="permission_skip_note">You can skip this and use the in-app calendar instead.</string>
+    <string name="button_enable">Enable</string>
+    <string name="button_maybe_later">Maybe Later</string>
+    
+    <!-- Notifications -->
+    <string name="notification_channel_name">Payment Reminders</string>
+    <string name="notification_channel_description">Notifications for upcoming credit card payments</string>
+    <string name="notification_title_due_today">Payment Due Today!</string>
+    <string name="notification_title_due_tomorrow">Payment Due Tomorrow</string>
+    <string name="notification_title_due_days">Payment Due in %1$d Days</string>
+    <string name="notification_content_format">%1$s (•••• %2$s)\nAmount: $%3$.2f\nDue: %4$s</string>
+    
+    <!-- Error Messages -->
+    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="error_network">Network error. Please check your connection.</string>
+    <string name="error_authentication">Authentication failed. Please log in again.</string>
+    <string name="error_no_data">No data available.</string>
+    <string name="button_retry">Retry</string>
+    
+    <!-- Loading States -->
+    <string name="loading_analyzing">Analyzing…</string>
+    <string name="loading_analyzing_statements">Analyzing statements</string>
+    <string name="loading_fetching_data">Fetching account data</string>
+    <string name="loading_ai_analysis">AI analysis in progress</string>
+    <string name="loading_almost_done">Almost done</string>
+    <string name="loading_progress">Processing %1$d of %2$d cards</string>
+    
+    <!-- Validation Errors -->
+    <string name="validation_email_invalid">Please enter a valid email address</string>
+    <string name="validation_password_short">Password must be at least 8 characters</string>
+    <string name="validation_statement_day_invalid">Please enter a day between 1 and 31</string>
+    <string name="validation_statement_day_empty">Statement day is required</string>
+    
+    <!-- Card Network Names -->
+    <string name="card_network_visa">Visa</string>
+    <string name="card_network_mastercard">Mastercard</string>
+    <string name="card_network_amex">American Express</string>
+    <string name="card_network_discover">Discover</string>
+    <string name="card_network_unknown">Credit Card</string>
+    
+    <!-- Dashboard Calendar -->
+    <string name="calendar_title">Payment Calendar</string>
+    <string name="calendar_upcoming_payments">Upcoming Payments</string>
+    <string name="calendar_legend_format">%1$s: %2$s - $%3$.2f</string>
+    
+    <!-- Accessibility -->
+    <string name="content_desc_bank_logo">%1$s logo</string>
+    <string name="content_desc_card_network">%1$s card network</string>
+    <string name="content_desc_payment_urgency">%1$d days until payment</string>
+    
+    <!-- Toast/Snackbar Messages -->
+    <string name="toast_statement_date_saved">Statement date saved</string>
+    <string name="toast_theme_changed">Theme changed to %1$s</string>
+    <string name="toast_copied">Copied to clipboard</string>
+    
+    <!-- Pull to Refresh -->
+    <string name="refresh_pulling">Pull to refresh</string>
+    <string name="refresh_release">Release to refresh</string>
+    <string name="refresh_refreshing">Refreshing…</string>
+</resources>
