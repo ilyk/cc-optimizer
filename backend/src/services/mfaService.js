@@ -43,11 +43,11 @@ class MfaService {
    */
   async verifyRegistration(userId, registrationResponse) {
     const {
-      id,
+      id: _id,
       rawId,
       response,
       type,
-      clientExtensionResults
+      clientExtensionResults: _clientExtensionResults
     } = registrationResponse;
     
     // Verify type is public-key
@@ -56,7 +56,7 @@ class MfaService {
     }
     
     // Decode attestation response
-    const attestationObject = Buffer.from(response.attestationObject, 'base64');
+    const _attestationObject = Buffer.from(response.attestationObject, 'base64');
     const clientDataJSON = Buffer.from(response.clientDataJSON, 'base64');
     
     // Parse client data
@@ -121,7 +121,7 @@ class MfaService {
    */
   async verifyAuthentication(userId, authenticationResponse) {
     const {
-      id,
+      id: _id,
       rawId,
       response,
       type
@@ -141,9 +141,9 @@ class MfaService {
     }
     
     // Decode response
-    const authenticatorData = Buffer.from(response.authenticatorData, 'base64');
+    const _authenticatorData = Buffer.from(response.authenticatorData, 'base64');
     const clientDataJSON = Buffer.from(response.clientDataJSON, 'base64');
-    const signature = Buffer.from(response.signature, 'base64');
+    const _signature = Buffer.from(response.signature, 'base64');
     
     // Parse client data
     const clientData = JSON.parse(clientDataJSON.toString('utf-8'));

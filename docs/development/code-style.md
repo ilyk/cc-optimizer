@@ -1,18 +1,29 @@
 # Code Style Guide
 
-Coding standards and linting configuration.
+Coding standards and linting configuration for the Credit Card Optimizer monorepo.
+
+## Overview
+
+The project uses consistent code style across all components:
+- **Android (Kotlin)**: 4-space indentation, 120-char line length
+- **Backend (JavaScript)**: 2-space indentation, 120-char line length  
+- **All files**: UTF-8, LF line endings, trailing newline
 
 ## Android (Kotlin)
 
 ### Linter: ktlint
 
-**Configuration**: `.editorconfig`
+**Configuration Files**:
+- `.editorconfig` - Root editor configuration
+- `app/.ktlint.editorconfig` - Kotlin-specific rules
 
+**Kotlin Style**:
 ```properties
 [*.{kt,kts}]
 indent_size = 4
+indent_style = space
 max_line_length = 120
-insert_final_newline = true
+ktlint_code_style = android_studio
 ```
 
 **Run**:
@@ -58,24 +69,38 @@ fun calculate(card: CreditCard, date: LocalDate): PaymentRecommendation {
 
 ### Linter: ESLint + Prettier
 
-**Configuration**: `.eslintrc.js`
+**Configuration Files**:
+- `backend/.eslintrc.js` - ESLint rules
+- `backend/.prettierrc.js` - Prettier formatting
+- `backend/.eslintignore` - Ignored paths
 
+**JavaScript Style**:
 ```javascript
 module.exports = {
-    extends: ['eslint:recommended'],
-    rules: {
-        'indent': ['error', 2],
-        'quotes': ['error', 'single'],
-        'semi': ['error', 'always']
-    }
+  env: { node: true, es6: true, jest: true },
+  extends: ['eslint:recommended'],
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'script'
+  },
+  rules: {
+    'indent': ['error', 2],          // 2 spaces
+    'quotes': ['error', 'single'],   // Single quotes
+    'semi': ['error', 'always'],     // Always semicolons
+    'curly': ['error', 'all'],       // Always use braces
+    'max-line-length': 120,          // 120 chars max
+    // ... see .eslintrc.js for complete rules
+  }
 };
 ```
 
 **Run**:
 ```bash
-npm run lint:fix    # Auto-fix
-npm run lint:check  # Check only
-npm run format      # Prettier format
+cd backend
+npm run lint:fix     # Auto-fix
+npm run lint:check   # Check only (0 errors allowed)
+npm run format       # Prettier format
+npm run format:check # Check formatting
 ```
 
 ### Style Rules

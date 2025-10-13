@@ -8,7 +8,7 @@
 module.exports = {
   env: {
     node: true,
-    es2021: true,
+    es6: true,
     jest: true,
   },
   
@@ -20,8 +20,8 @@ module.exports = {
   ],
   
   parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module',
+    ecmaVersion: 2020,
+    sourceType: 'script',
   },
   
   plugins: [
@@ -61,7 +61,7 @@ module.exports = {
     // =========================================================================
     'no-async-promise-executor': 'error',
     'no-await-in-loop': 'warn',
-    'no-promise-executor-return': 'error',
+    // 'no-promise-executor-return': 'error',  // Not available in older ESLint
     
     // =========================================================================
     // CODE STYLE (configurable)
@@ -101,6 +101,12 @@ module.exports = {
         'account_id',
         'webhook_type',
         'webhook_code',
+        'credit_limit',
+        'statement_date',
+        'due_date',
+        'auto_pay_enabled',
+        'auto_pay_amount',
+        'password_hash',
       ],
     }],
     
@@ -151,15 +157,6 @@ module.exports = {
         'no-console': 'off',
       },
     },
-  ],
-  
-  // Ignore patterns
-  ignorePatterns: [
-    'node_modules/',
-    'dist/',
-    'build/',
-    'coverage/',
-    '*.min.js',
   ],
 };
 

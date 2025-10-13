@@ -2,7 +2,6 @@ const express = require('express');
 const { asyncHandler } = require('../middleware/errorHandler');
 const { authMiddleware } = require('../middleware/auth');
 const mfaService = require('../services/mfaService');
-const logger = require('../utils/logger');
 
 const router = express.Router();
 

@@ -57,7 +57,7 @@ class UserRepository {
     }
 
     // Don't return password hash
-    const { password_hash, ...userWithoutPassword } = user;
+    const { password_hash: _passwordHash, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -129,7 +129,7 @@ class UserRepository {
       [userId]
     );
     
-    if (!result[0]) return null;
+    if (!result[0]) {return null;}
     
     return {
       challenge: result[0].challenge,

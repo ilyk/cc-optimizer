@@ -91,7 +91,7 @@ class MetricsService {
    * Increment a counter
    */
   incrementCounter(name, labels = {}, value = 1) {
-    if (!this.enabled) return;
+    if (!this.enabled) {return;}
 
     try {
       switch (this.provider) {
@@ -114,7 +114,7 @@ class MetricsService {
    * Set a gauge value
    */
   setGauge(name, value, labels = {}) {
-    if (!this.enabled) return;
+    if (!this.enabled) {return;}
 
     try {
       switch (this.provider) {
@@ -137,7 +137,7 @@ class MetricsService {
    * Record histogram value
    */
   recordHistogram(name, value, labels = {}) {
-    if (!this.enabled) return;
+    if (!this.enabled) {return;}
 
     try {
       switch (this.provider) {
@@ -228,7 +228,7 @@ class MetricsService {
     };
     
     this.client.putMetricData(params, (err) => {
-      if (err) logger.error('CloudWatch metric error:', err);
+      if (err) {logger.error('CloudWatch metric error:', err);}
     });
   }
 
@@ -237,7 +237,7 @@ class MetricsService {
    */
   async getMetrics() {
     if (this.provider === 'prometheus' && this.client) {
-      return await this.client.metrics();
+      return this.client.metrics();
     }
     return '';
   }
@@ -247,7 +247,7 @@ class MetricsService {
    */
   middleware() {
     return (req, res, next) => {
-      if (!this.enabled) return next();
+      if (!this.enabled) {return next();}
 
       const start = Date.now();
 

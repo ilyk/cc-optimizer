@@ -65,11 +65,11 @@ const transactionsValidation = [
     .withMessage('start_date is required')
     .matches(/^\d{4}-\d{2}-\d{2}$/)
     .withMessage('start_date must be in YYYY-MM-DD format')
-    .custom((value, { req }) => {
+    .custom((value) => {
       const start = new Date(value);
-      if (isNaN(start.getTime())) throw new Error('start_date is invalid');
+      if (isNaN(start.getTime())) {throw new Error('start_date is invalid');}
       const now = new Date();
-      if (start > now) throw new Error('start_date cannot be in the future');
+      if (start > now) {throw new Error('start_date cannot be in the future');}
       return true;
     }),
   body('end_date')
@@ -79,12 +79,12 @@ const transactionsValidation = [
     .withMessage('end_date must be in YYYY-MM-DD format')
     .custom((value, { req }) => {
       const end = new Date(value);
-      if (isNaN(end.getTime())) throw new Error('end_date is invalid');
+      if (isNaN(end.getTime())) {throw new Error('end_date is invalid');}
       const now = new Date();
-      if (end > now) throw new Error('end_date cannot be in the future');
+      if (end > now) {throw new Error('end_date cannot be in the future');}
       const start = new Date(req.body.start_date);
-      if (isNaN(start.getTime())) throw new Error('start_date is invalid');
-      if (end < start) throw new Error('end_date must be after start_date');
+      if (isNaN(start.getTime())) {throw new Error('start_date is invalid');}
+      if (end < start) {throw new Error('end_date must be after start_date');}
       // Limit range to 1 year to prevent abuse
       const oneYearMs = 365 * 24 * 60 * 60 * 1000;
       if (end.getTime() - start.getTime() > oneYearMs) {

@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
  * Global error handling middleware
  * Must be the last middleware in the chain
  */
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res, _next) {
   // Log the error
   logger.error('Error occurred:', {
     message: err.message,

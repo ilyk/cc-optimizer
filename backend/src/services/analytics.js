@@ -74,7 +74,7 @@ class AnalyticsService {
    * Sanitize event properties
    */
   sanitizeProperties(properties) {
-    if (!config.analytics.anonymize) return properties;
+    if (!config.analytics.anonymize) {return properties;}
 
     const sanitized = { ...properties };
     
@@ -90,7 +90,7 @@ class AnalyticsService {
    * Track an event
    */
   track(userId, event, properties = {}) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     const sanitizedProps = this.sanitizeProperties(properties);
 
@@ -144,7 +144,7 @@ class AnalyticsService {
    * Identify a user
    */
   identify(userId, traits = {}) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     const sanitizedTraits = this.sanitizeProperties(traits);
 
@@ -173,7 +173,7 @@ class AnalyticsService {
    * Flush event queue
    */
   flush() {
-    if (this.eventQueue.length === 0) return;
+    if (this.eventQueue.length === 0) {return;}
 
     const events = [...this.eventQueue];
     this.eventQueue = [];
@@ -207,37 +207,39 @@ class AnalyticsService {
   /**
    * Common events
    */
-  events = {
+  get events() {
+    return {
     // Authentication
-    USER_REGISTERED: 'User Registered',
-    USER_LOGGED_IN: 'User Logged In',
-    USER_LOGGED_OUT: 'User Logged Out',
+      USER_REGISTERED: 'User Registered',
+      USER_LOGGED_IN: 'User Logged In',
+      USER_LOGGED_OUT: 'User Logged Out',
     
-    // Plaid
-    PLAID_LINK_STARTED: 'Plaid Link Started',
-    PLAID_LINK_SUCCESS: 'Plaid Link Success',
-    PLAID_LINK_EXIT: 'Plaid Link Exit',
-    PLAID_ACCOUNTS_FETCHED: 'Plaid Accounts Fetched',
+      // Plaid
+      PLAID_LINK_STARTED: 'Plaid Link Started',
+      PLAID_LINK_SUCCESS: 'Plaid Link Success',
+      PLAID_LINK_EXIT: 'Plaid Link Exit',
+      PLAID_ACCOUNTS_FETCHED: 'Plaid Accounts Fetched',
     
-    // Cards
-    CREDIT_CARDS_VIEWED: 'Credit Cards Viewed',
-    CARD_DETAILS_VIEWED: 'Card Details Viewed',
-    STATEMENT_DATE_SET: 'Statement Date Set Manually',
+      // Cards
+      CREDIT_CARDS_VIEWED: 'Credit Cards Viewed',
+      CARD_DETAILS_VIEWED: 'Card Details Viewed',
+      STATEMENT_DATE_SET: 'Statement Date Set Manually',
     
-    // Recommendations
-    RECOMMENDATIONS_GENERATED: 'Recommendations Generated',
-    RECOMMENDATIONS_VIEWED: 'Recommendations Viewed',
+      // Recommendations
+      RECOMMENDATIONS_GENERATED: 'Recommendations Generated',
+      RECOMMENDATIONS_VIEWED: 'Recommendations Viewed',
     
-    // API
-    API_REQUEST: 'API Request',
-    API_ERROR: 'API Error',
+      // API
+      API_REQUEST: 'API Request',
+      API_ERROR: 'API Error',
     
-    // Performance
-    STATEMENT_ANALYSIS_COMPLETED: 'Statement Analysis Completed',
-    LLM_ANALYSIS_USED: 'LLM Analysis Used',
-    CACHE_HIT: 'Cache Hit',
-    CACHE_MISS: 'Cache Miss',
-  };
+      // Performance
+      STATEMENT_ANALYSIS_COMPLETED: 'Statement Analysis Completed',
+      LLM_ANALYSIS_USED: 'LLM Analysis Used',
+      CACHE_HIT: 'Cache Hit',
+      CACHE_MISS: 'Cache Miss',
+    };
+  }
 }
 
 module.exports = new AnalyticsService();

@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const crypto = require('crypto');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -44,10 +43,10 @@ app.use(helmet());
 // CORS configuration (tighten in production)
 const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map(o => o.trim()).filter(Boolean);
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow non-browser clients
-    if (allowedOrigins.length === 0) return callback(null, true); // default open if not configured
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+  origin: function (origin, callback) {
+    if (!origin) {return callback(null, true);} // allow non-browser clients
+    if (allowedOrigins.length === 0) {return callback(null, true);} // default open if not configured
+    if (allowedOrigins.includes(origin)) {return callback(null, true);}
     return callback(new Error('CORS not allowed'), false);
   },
   credentials: false,

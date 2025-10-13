@@ -13,7 +13,7 @@ class DatabaseConnection {
   }
 
   async initialize() {
-    if (this.initialized) return;
+    if (this.initialized) {return;}
 
     try {
       if (this.type === 'postgres') {

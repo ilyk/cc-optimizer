@@ -52,7 +52,7 @@ class ErrorTrackingService {
       integrations: [
         new ProfilingIntegration(),
       ],
-      beforeSend(event, hint) {
+      beforeSend(event, _hint) {
         // Sanitize sensitive data
         if (event.request?.headers) {
           delete event.request.headers.authorization;
@@ -99,7 +99,7 @@ class ErrorTrackingService {
    * Capture an exception
    */
   captureException(error, context = {}) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     try {
       switch (this.provider) {
@@ -124,7 +124,7 @@ class ErrorTrackingService {
    * Capture a message
    */
   captureMessage(message, level = 'info', context = {}) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     try {
       switch (this.provider) {
@@ -150,7 +150,7 @@ class ErrorTrackingService {
    * Set user context
    */
   setUser(userId, userData = {}) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     try {
       switch (this.provider) {
@@ -173,7 +173,7 @@ class ErrorTrackingService {
    * Add breadcrumb
    */
   addBreadcrumb(breadcrumb) {
-    if (!this.enabled || !this.client) return;
+    if (!this.enabled || !this.client) {return;}
 
     try {
       switch (this.provider) {
