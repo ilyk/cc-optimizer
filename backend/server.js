@@ -104,6 +104,10 @@ const apiV1 = express.Router();
 // Security routes (certificate pins, etc.)
 apiV1.use('/security', securityRoutes);
 
+// MFA routes (FIDO2, passkeys, biometric)
+const mfaRoutes = require('./src/routes/mfa');
+apiV1.use('/mfa', mfaRoutes);
+
 // =============================================================================
 // AUTH ROUTES (v1)
 // =============================================================================

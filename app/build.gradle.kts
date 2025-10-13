@@ -169,6 +169,13 @@ dependencies {
     // Security - Encrypted SharedPreferences
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     
+    // MFA - Biometric Authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+    
+    // MFA - Credential Manager (FIDO2, Passkeys) - Android 14+
+    implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+    
     // Pull to Refresh
     implementation("com.google.accompanist:accompanist-swiperefresh:0.32.0")
     
