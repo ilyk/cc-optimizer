@@ -8,9 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.data.models.CreditCard
 import im.ilyk.ccoptimizer.data.models.PaymentRecommendation
 import java.time.format.DateTimeFormatter
@@ -82,7 +84,7 @@ fun CreditCardDesign(
                 
                 // Middle: Card number (stylized)
                 Text(
-                    text = "•••• •••• •••• ${card.lastFourDigits}",
+                    text = stringResource(R.string.card_number_format, card.lastFourDigits),
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White,
                     fontFamily = FontFamily.Monospace,
@@ -106,7 +108,7 @@ fun CreditCardDesign(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Balance: $${String.format("%,.2f", card.currentBalance)}",
+                            text = stringResource(R.string.card_balance_format, String.format("%,.2f", card.currentBalance)),
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.White.copy(alpha = 0.7f)
                         )
@@ -206,7 +208,7 @@ private fun PaymentInfo(recommendation: PaymentRecommendation) {
             color = Color.White.copy(alpha = 0.9f)
         )
         Text(
-            text = "$${String.format("%,.2f", recommendation.recommendedAmount)}",
+            text = stringResource(R.string.card_amount_format, String.format("%,.2f", recommendation.recommendedAmount)),
             style = MaterialTheme.typography.titleLarge,
             color = Color.White,
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
