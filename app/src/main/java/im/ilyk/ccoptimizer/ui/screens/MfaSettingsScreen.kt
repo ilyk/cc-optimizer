@@ -10,9 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.security.MfaAction
 import im.ilyk.ccoptimizer.security.MfaManager
 import im.ilyk.ccoptimizer.security.SecurityLevel
@@ -119,7 +121,7 @@ fun MfaSettingsScreen(
             
             // Authentication Methods Section
             Text(
-                text = "Authentication Methods",
+                text = stringResource(R.string.mfa_settings_auth_methods),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -148,13 +150,13 @@ fun MfaSettingsScreen(
             
             // Security Levels Section
             Text(
-                text = "Security Levels per Action",
+                text = stringResource(R.string.mfa_settings_security_levels),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             
             Text(
-                text = "Configure what authentication is required for sensitive actions",
+                text = stringResource(R.string.mfa_settings_security_levels_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -234,12 +236,12 @@ private fun BiometricSettingCard(
                     
                     Column {
                         Text(
-                            text = "Biometric Authentication",
+                            text = stringResource(R.string.mfa_settings_biometric_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = if (canUse) "Fingerprint or Face" else "Not Available",
+                            text = stringResource(if (canUse) R.string.mfa_settings_biometric_type else R.string.mfa_settings_not_available),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -313,12 +315,12 @@ private fun HardwareKeySettingCard(
                     
                     Column {
                         Text(
-                            text = "Hardware Security Keys",
+                            text = stringResource(R.string.mfa_settings_hardware_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "Yubikey, Google Titan, etc.",
+                            text = stringResource(R.string.mfa_settings_hardware_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -375,12 +377,12 @@ private fun PasskeySettingCard(
                     
                     Column {
                         Text(
-                            text = "Passkeys",
+                            text = stringResource(R.string.mfa_settings_passkey_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "Passwordless authentication",
+                            text = stringResource(R.string.mfa_settings_passkey_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -465,7 +467,7 @@ private fun SecurityLevelDialog(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "Choose security level for this action:",
+                    text = stringResource(R.string.mfa_settings_choose_level),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 

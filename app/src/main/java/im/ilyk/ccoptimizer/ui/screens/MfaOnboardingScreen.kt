@@ -11,10 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.security.BiometricAvailability
 import im.ilyk.ccoptimizer.security.MfaManager
 
@@ -138,14 +140,14 @@ private fun IntroductionStep(onNext: () -> Unit) {
         )
         
         Text(
-            text = "Secure Your Financial Data",
+            text = stringResource(R.string.mfa_onboarding_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         
         Text(
-            text = "Add extra security layers to protect your credit card information and bank connections.",
+            text = stringResource(R.string.mfa_onboarding_subtitle),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -202,7 +204,7 @@ private fun BiometricStep(
         )
         
         Text(
-            text = "Biometric Authentication",
+            text = stringResource(R.string.mfa_onboarding_biometric_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -210,7 +212,7 @@ private fun BiometricStep(
         when (available) {
             BiometricAvailability.AVAILABLE -> {
                 Text(
-                    text = "Your device supports biometric authentication!",
+                    text = stringResource(R.string.mfa_onboarding_biometric_supported),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -227,15 +229,15 @@ private fun BiometricStep(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            text = "✓ Quick unlock (no password needed)",
+                            text = stringResource(R.string.mfa_onboarding_biometric_benefit_1),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "✓ Secure (biometric data never leaves your device)",
+                            text = stringResource(R.string.mfa_onboarding_biometric_benefit_2),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "✓ Convenient (touch or glance to authenticate)",
+                            text = stringResource(R.string.mfa_onboarding_biometric_benefit_3),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -249,7 +251,7 @@ private fun BiometricStep(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = if (enabled) "Biometric Enabled" else "Enable Biometric",
+                        text = stringResource(if (enabled) R.string.mfa_onboarding_biometric_enabled else R.string.mfa_onboarding_biometric_enable),
                         style = MaterialTheme.typography.titleMedium
                     )
                     
@@ -277,7 +279,7 @@ private fun BiometricStep(
                                 tint = MaterialTheme.colorScheme.tertiary
                             )
                             Text(
-                                text = "Biometric authentication is now active!",
+                                text = stringResource(R.string.mfa_onboarding_biometric_success),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -297,24 +299,24 @@ private fun BiometricStep(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            text = "⚠️ No Biometrics Enrolled",
+                            text = stringResource(R.string.mfa_onboarding_biometric_no_enrolled),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "To use biometric authentication, please:",
+                            text = stringResource(R.string.mfa_onboarding_biometric_instructions),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "1. Go to Settings > Security",
+                            text = stringResource(R.string.mfa_onboarding_biometric_step_1),
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            text = "2. Add a fingerprint or face",
+                            text = stringResource(R.string.mfa_onboarding_biometric_step_2),
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            text = "3. Come back to enable biometric auth",
+                            text = stringResource(R.string.mfa_onboarding_biometric_step_3),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -323,13 +325,13 @@ private fun BiometricStep(
             
             BiometricAvailability.NO_HARDWARE -> {
                 Text(
-                    text = "Your device doesn't support biometric authentication",
+                    text = stringResource(R.string.mfa_onboarding_biometric_unsupported),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "You can use hardware keys or passkeys instead",
+                    text = stringResource(R.string.mfa_onboarding_biometric_alternatives),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center
                 )
@@ -337,7 +339,7 @@ private fun BiometricStep(
             
             else -> {
                 Text(
-                    text = "Biometric authentication is currently unavailable",
+                    text = stringResource(R.string.mfa_onboarding_biometric_unavailable),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
@@ -380,13 +382,13 @@ private fun HardwareKeyStep(
         )
         
         Text(
-            text = "Hardware Security Keys",
+            text = stringResource(R.string.mfa_onboarding_hardware_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
         
         Text(
-            text = "Add an extra layer of security with FIDO2-compatible hardware keys like Yubikey.",
+            text = stringResource(R.string.mfa_onboarding_hardware_subtitle),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -400,7 +402,7 @@ private fun HardwareKeyStep(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Supported Hardware:",
+                    text = stringResource(R.string.mfa_onboarding_hardware_supported),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -423,7 +425,7 @@ private fun HardwareKeyStep(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "💡 Recommended For:",
+                    text = stringResource(R.string.mfa_onboarding_hardware_recommended),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -451,7 +453,7 @@ private fun HardwareKeyStep(
                         tint = MaterialTheme.colorScheme.tertiary
                     )
                     Text(
-                        text = "Hardware key support enabled! You can register your key in Settings.",
+                        text = stringResource(R.string.mfa_onboarding_hardware_enabled_message),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -466,7 +468,7 @@ private fun HardwareKeyStep(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = if (enabled) "Hardware Key Enabled" else "Enable Hardware Keys",
+                text = stringResource(if (enabled) R.string.mfa_onboarding_hardware_enabled else R.string.mfa_onboarding_hardware_enable),
                 style = MaterialTheme.typography.titleMedium
             )
             
@@ -513,7 +515,7 @@ private fun SummaryStep(
         )
         
         Text(
-            text = "Security Setup Complete!",
+            text = stringResource(R.string.mfa_onboarding_complete_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -526,7 +528,7 @@ private fun SummaryStep(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Enabled Security Features:",
+                    text = stringResource(R.string.mfa_onboarding_complete_enabled_features),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -534,27 +536,27 @@ private fun SummaryStep(
                 if (biometricEnabled) {
                     SecurityEnabledItem(
                         icon = Icons.Default.Fingerprint,
-                        text = "Biometric Authentication"
+                        text = stringResource(R.string.mfa_onboarding_complete_feature_biometric)
                     )
                 }
                 
                 if (hardwareKeyEnabled) {
                     SecurityEnabledItem(
                         icon = Icons.Default.Key,
-                        text = "Hardware Security Keys"
+                        text = stringResource(R.string.mfa_onboarding_complete_feature_hardware)
                     )
                 }
                 
                 if (passkeyEnabled) {
                     SecurityEnabledItem(
                         icon = Icons.Default.Password,
-                        text = "Passkeys"
+                        text = stringResource(R.string.mfa_onboarding_complete_feature_passkeys)
                     )
                 }
                 
                 if (!biometricEnabled && !hardwareKeyEnabled && !passkeyEnabled) {
                     Text(
-                        text = "No additional security enabled (you can enable later in Settings)",
+                        text = stringResource(R.string.mfa_onboarding_complete_no_features),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -573,20 +575,20 @@ private fun SummaryStep(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "💡 You can customize security levels in Settings:",
+                    text = stringResource(R.string.mfa_onboarding_complete_customize_hint),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "• Set different requirements for different actions",
+                    text = stringResource(R.string.mfa_onboarding_complete_customize_1),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "• Enable/disable MFA methods anytime",
+                    text = stringResource(R.string.mfa_onboarding_complete_customize_2),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "• View tutorial again from Settings",
+                    text = stringResource(R.string.mfa_onboarding_complete_customize_3),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

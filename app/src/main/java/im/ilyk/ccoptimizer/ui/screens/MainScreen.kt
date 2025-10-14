@@ -153,13 +153,13 @@ fun RecommendationsView(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Payment Recommendations",
+                    text = stringResource(R.string.main_recommendations_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "${recommendations.size} credit card(s) ready" +
+                    text = stringResource(R.string.main_cards_count, recommendations.size) +
                         if (cardsNeedingInput.isNotEmpty()) " • ${cardsNeedingInput.size} need setup" else "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
@@ -197,7 +197,7 @@ fun RecommendationsView(
                 item {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "💡 Pull down to refresh",
+                        text = stringResource(R.string.main_refresh_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray,
                         modifier = Modifier.fillMaxWidth(),
@@ -225,12 +225,12 @@ fun CardsNeedingInputSection(
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "⚠️",
+                    text = stringResource(R.string.main_setup_required_icon),
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Manual Setup Required",
+                    text = stringResource(R.string.main_setup_required_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -239,8 +239,7 @@ fun CardsNeedingInputSection(
             Spacer(modifier = Modifier.height(12.dp))
             
             Text(
-                text = "Could not automatically determine statement dates for ${cards.size} card(s). " +
-                      "Transaction history did not contain statement markers.",
+                text = stringResource(R.string.main_setup_required_desc, cards.size),
                 style = MaterialTheme.typography.bodyMedium,
                 lineHeight = 20.sp
             )
@@ -268,21 +267,21 @@ fun CardsNeedingInputSection(
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                text = "•••• ${card.lastFourDigits}",
+                                text = stringResource(R.string.loading_card_mask, card.lastFourDigits),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color.Gray
                             )
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = "Set Date",
+                                text = stringResource(R.string.main_card_set_date),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color(0xFFF57C00), // Orange
                                 fontWeight = FontWeight.Medium
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "→",
+                                text = stringResource(R.string.main_card_arrow),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = Color(0xFFF57C00)
                             )
@@ -294,8 +293,7 @@ fun CardsNeedingInputSection(
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = "💡 Tap a card to enter its statement closing date. " +
-                      "Check your credit card statement or mobile app.",
+                text = stringResource(R.string.main_setup_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray,
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
@@ -331,7 +329,7 @@ fun PaymentRecommendationCard(recommendation: PaymentRecommendation) {
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "•••• ${recommendation.creditCard.lastFourDigits}",
+                        text = stringResource(R.string.loading_card_mask, recommendation.creditCard.lastFourDigits),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
@@ -361,7 +359,7 @@ fun PaymentRecommendationCard(recommendation: PaymentRecommendation) {
             ) {
                 Column {
                     Text(
-                        text = "Pay By",
+                        text = stringResource(R.string.main_pay_by),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
@@ -374,12 +372,12 @@ fun PaymentRecommendationCard(recommendation: PaymentRecommendation) {
                 
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Amount",
+                        text = stringResource(R.string.main_amount),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
                     Text(
-                        text = "$${String.format("%.2f", recommendation.recommendedAmount)}",
+                        text = stringResource(R.string.card_amount_format, String.format("%.2f", recommendation.recommendedAmount)),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary
@@ -395,7 +393,7 @@ fun PaymentRecommendationCard(recommendation: PaymentRecommendation) {
             Spacer(modifier = Modifier.height(12.dp))
             
             Text(
-                text = "Statement closes: ${recommendation.statementDueDate.format(dateFormatter)}",
+                text = stringResource(R.string.main_statement_closes, recommendation.statementDueDate.format(dateFormatter)),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
@@ -429,7 +427,7 @@ fun ErrorView(message: String, onRetry: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Something went wrong",
+            text = stringResource(R.string.error_something_wrong),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
