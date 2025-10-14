@@ -270,6 +270,8 @@ temp/
 # ================================
 # Keep all markdown files in docs/
 # Keep README files
+# Ignore all root-level markdown files except README.md and CHANGELOG.md
+/*.md
 !README.md
 !CHANGELOG.md
 !docs/**/*.md
