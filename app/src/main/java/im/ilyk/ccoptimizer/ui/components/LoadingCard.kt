@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import im.ilyk.ccoptimizer.R
 
 @Composable
 fun LoadingCardSkeleton() {
@@ -130,7 +132,7 @@ fun AnalyzingCard(cardName: String, cardMask: String) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = "•••• $cardMask",
+                        text = stringResource(R.string.loading_card_mask, cardMask),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
@@ -154,12 +156,12 @@ fun AnalyzingCard(cardName: String, cardMask: String) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "🤖",
+                    text = stringResource(R.string.loading_ai_emoji),
                     fontSize = 20.sp
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Analyzing statement patterns$dots",
+                    text = stringResource(R.string.loading_analyzing_patterns, dots),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium

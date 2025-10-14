@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.data.models.CreditCard
 import im.ilyk.ccoptimizer.ui.components.AnalyzingCard
 import im.ilyk.ccoptimizer.ui.components.LoadingCardSkeleton
@@ -35,7 +37,7 @@ fun LoadingWithCardsView(
                 ) {
                     Column {
                         Text(
-                            text = "Analyzing Your Cards",
+                            text = stringResource(R.string.loading_screen_title),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -65,7 +67,7 @@ fun LoadingWithCardsView(
                     Spacer(modifier = Modifier.height(4.dp))
                     
                     Text(
-                        text = "${loadingCards.size} of $totalCards cards analyzed",
+                        text = stringResource(R.string.loading_screen_progress, loadingCards.size, totalCards),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
                     )
@@ -97,7 +99,7 @@ fun LoadingWithCardsView(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "💡 Using AI to detect your statement closing dates\nThis may take a few moments...",
+                    text = stringResource(R.string.loading_screen_ai_hint),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray,
                     modifier = Modifier.fillMaxWidth(),
