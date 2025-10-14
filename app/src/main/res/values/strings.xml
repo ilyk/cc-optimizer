@@ -124,4 +124,135 @@
     <string name="refresh_pulling">Pull to refresh</string>
     <string name="refresh_release">Release to refresh</string>
     <string name="refresh_refreshing">Refreshing…</string>
+    
+    <!-- MFA - Onboarding -->
+    <string name="mfa_onboarding_title">Secure Your Account</string>
+    <string name="mfa_onboarding_skip">Skip for now</string>
+    <string name="mfa_intro_title">Secure Your Financial Data</string>
+    <string name="mfa_intro_description">Add extra security layers to protect your credit card information and bank connections.</string>
+    <string name="mfa_intro_button">Get Started</string>
+    
+    <!-- MFA - Biometric -->
+    <string name="mfa_biometric_title">Biometric Authentication</string>
+    <string name="mfa_biometric_available">Your device supports biometric authentication!</string>
+    <string name="mfa_biometric_benefit_1">✓ Quick unlock (no password needed)</string>
+    <string name="mfa_biometric_benefit_2">✓ Secure (biometric data never leaves your device)</string>
+    <string name="mfa_biometric_benefit_3">✓ Convenient (touch or glance to authenticate)</string>
+    <string name="mfa_biometric_enabled">Biometric Enabled</string>
+    <string name="mfa_biometric_enable">Enable Biometric</string>
+    <string name="mfa_biometric_active">Biometric authentication is now active!</string>
+    <string name="mfa_biometric_not_enrolled_title">⚠️ No Biometrics Enrolled</string>
+    <string name="mfa_biometric_not_enrolled_desc">To use biometric authentication, please:</string>
+    <string name="mfa_biometric_not_enrolled_step1">1. Go to Settings > Security</string>
+    <string name="mfa_biometric_not_enrolled_step2">2. Add a fingerprint or face</string>
+    <string name="mfa_biometric_not_enrolled_step3">3. Come back to enable biometric auth</string>
+    <string name="mfa_biometric_no_hardware">Your device doesn\'t support biometric authentication</string>
+    <string name="mfa_biometric_alternative">You can use hardware keys or passkeys instead</string>
+    <string name="mfa_biometric_unavailable">Biometric authentication is currently unavailable</string>
+    
+    <!-- MFA - Hardware Keys -->
+    <string name="mfa_hardware_title">Hardware Security Keys</string>
+    <string name="mfa_hardware_description">Add an extra layer of security with FIDO2-compatible hardware keys like Yubikey.</string>
+    <string name="mfa_hardware_supported_title">Supported Hardware:</string>
+    <string name="mfa_hardware_yubikey">✓ Yubikey (all models)</string>
+    <string name="mfa_hardware_titan">✓ Google Titan Security Key</string>
+    <string name="mfa_hardware_feitian">✓ Feitian ePass FIDO</string>
+    <string name="mfa_hardware_any">✓ Any FIDO2/WebAuthn key</string>
+    <string name="mfa_hardware_recommended_title">💡 Recommended For:</string>
+    <string name="mfa_hardware_recommended_1">• High-value transactions</string>
+    <string name="mfa_hardware_recommended_2">• Adding/removing cards</string>
+    <string name="mfa_hardware_recommended_3">• Changing security settings</string>
+    <string name="mfa_hardware_enabled">Hardware Key Enabled</string>
+    <string name="mfa_hardware_enable">Enable Hardware Keys</string>
+    <string name="mfa_hardware_active">Hardware key support enabled! You can register your key in Settings.</string>
+    <string name="mfa_hardware_register">Register Hardware Key</string>
+    
+    <!-- MFA - Passkeys -->
+    <string name="mfa_passkey_title">Passkeys</string>
+    <string name="mfa_passkey_description">Passwordless authentication</string>
+    <string name="mfa_passkey_create">Create Passkey</string>
+    
+    <!-- MFA - Summary -->
+    <string name="mfa_summary_title">Security Setup Complete!</string>
+    <string name="mfa_summary_features_title">Enabled Security Features:</string>
+    <string name="mfa_summary_none">No additional security enabled (you can enable later in Settings)</string>
+    <string name="mfa_summary_customize_title">💡 You can customize security levels in Settings:</string>
+    <string name="mfa_summary_customize_1">• Set different requirements for different actions</string>
+    <string name="mfa_summary_customize_2">• Enable/disable MFA methods anytime</string>
+    <string name="mfa_summary_customize_3">• View tutorial again from Settings</string>
+    <string name="mfa_summary_complete">Complete Setup</string>
+    
+    <!-- MFA - Settings -->
+    <string name="mfa_settings_title">Multi-Factor Authentication</string>
+    <string name="mfa_status_active">MFA Active</string>
+    <string name="mfa_status_not_configured">MFA Not Configured</string>
+    <string name="mfa_status_enabled_format">Enabled: %1$s</string>
+    <string name="mfa_status_password_only">Your account is protected by password only</string>
+    <string name="mfa_methods_title">Authentication Methods</string>
+    <string name="mfa_biometric_subtitle">Fingerprint or Face</string>
+    <string name="mfa_hardware_subtitle">Yubikey, Google Titan, etc.</string>
+    <string name="mfa_security_levels_title">Security Levels per Action</string>
+    <string name="mfa_security_levels_description">Configure what authentication is required for sensitive actions</string>
+    <string name="mfa_tutorial_button">View Setup Tutorial Again</string>
+    
+    <!-- MFA - Security Levels -->
+    <string name="security_level_none">None</string>
+    <string name="security_level_none_desc">No additional authentication</string>
+    <string name="security_level_biometric">Biometric</string>
+    <string name="security_level_biometric_desc">Fingerprint or face required</string>
+    <string name="security_level_hardware">Hardware Key</string>
+    <string name="security_level_hardware_desc">FIDO2 hardware key required</string>
+    <string name="security_level_both">Biometric + Hardware Key</string>
+    <string name="security_level_both_desc">Both biometric and hardware key required</string>
+    <string name="security_level_passkey">Passkey</string>
+    <string name="security_level_passkey_desc">Passkey authentication required</string>
+    <string name="security_level_choose">Choose security level for this action:</string>
+    
+    <!-- MFA - Feature Cards -->
+    <string name="mfa_feature_biometric_title">Biometric Authentication</string>
+    <string name="mfa_feature_biometric_desc">Use fingerprint or face recognition for quick, secure access</string>
+    <string name="mfa_feature_hardware_title">Hardware Security Keys</string>
+    <string name="mfa_feature_hardware_desc">Add Yubikey or other FIDO2 keys for maximum security</string>
+    <string name="mfa_feature_passkey_title">Passkeys</string>
+    <string name="mfa_feature_passkey_desc">Modern passwordless authentication synced across your devices</string>
+    
+    <!-- Navigation -->
+    <string name="button_next">Next</string>
+    <string name="button_back">Back</string>
+    
+    <!-- Loading Card -->
+    <string name="loading_card_mask">•••• %1$s</string>
+    <string name="loading_ai_emoji">🤖</string>
+    <string name="loading_analyzing_patterns">Analyzing statement patterns%1$s</string>
+    
+    <!-- Card Design -->
+    <string name="card_number_format">•••• •••• •••• %1$s</string>
+    <string name="card_balance_format">Balance: $%1$s</string>
+    <string name="card_amount_format">$%1$s</string>
+    
+    <!-- Loading Screen -->
+    <string name="loading_screen_title">Analyzing Your Cards</string>
+    <string name="loading_screen_progress">%1$d of %2$d cards analyzed</string>
+    <string name="loading_screen_ai_hint">💡 Using AI to detect your statement closing dates\nThis may take a few moments…</string>
+    
+    <!-- Main Screen - Recommendations -->
+    <string name="main_recommendations_title">Payment Recommendations</string>
+    <string name="main_cards_count">%1$d credit card(s) ready</string>
+    <string name="main_refresh_hint">💡 Pull down to refresh</string>
+    
+    <!-- Main Screen - Manual Setup -->
+    <string name="main_setup_required_icon">⚠️</string>
+    <string name="main_setup_required_title">Manual Setup Required</string>
+    <string name="main_setup_required_desc">Could not automatically determine statement dates for %1$d card(s). Tap cards below to set dates manually.</string>
+    <string name="main_setup_hint">💡 Tap a card to enter its statement closing date. You can find this on your credit card statement or mobile app.</string>
+    <string name="main_card_set_date">Set Date</string>
+    <string name="main_card_arrow">→</string>
+    
+    <!-- Main Screen - Recommendation Card -->
+    <string name="main_pay_by">Pay By</string>
+    <string name="main_amount">Amount</string>
+    <string name="main_statement_closes">Statement closes: %1$s</string>
+    
+    <!-- Error States -->
+    <string name="error_something_wrong">Something went wrong</string>
 </resources>
