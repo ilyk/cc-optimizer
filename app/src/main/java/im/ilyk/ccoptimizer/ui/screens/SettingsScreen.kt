@@ -46,7 +46,7 @@ fun SettingsScreen(
                 onThemeChange = onThemeChange
             )
             
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
             
             // Future sections
             // - Notification preferences

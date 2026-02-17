@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /**
@@ -57,8 +58,7 @@ class ThemePreferences(private val context: Context) {
      * Get theme mode synchronously (for initial setup)
      */
     suspend fun getThemeMode(): String {
-        val preferences = context.dataStore.data
-        return preferences.map { it[THEME_MODE_KEY] ?: THEME_AUTO }.collect { it }
+        return context.dataStore.data.map { it[THEME_MODE_KEY] ?: THEME_AUTO }.first()
     }
 }
 

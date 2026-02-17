@@ -409,6 +409,7 @@ private fun PasskeySettingCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActionSecurityCard(
     action: MfaAction,
@@ -490,6 +491,7 @@ private fun SecurityLevelDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SecurityLevelOption(
     level: SecurityLevel,

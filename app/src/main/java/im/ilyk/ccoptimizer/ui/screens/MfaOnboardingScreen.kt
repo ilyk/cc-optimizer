@@ -35,6 +35,7 @@ import im.ilyk.ccoptimizer.security.MfaManager
  * - Clear explanations of benefits
  * - Can skip (optional)
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MfaOnboardingScreen(
     onComplete: () -> Unit,

@@ -3,6 +3,11 @@
     <!-- App Name -->
     <string name="app_name">CC Optimizer</string>
     
+    <!-- Social Authentication -->
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
+    <string name="fb_login_protocol_scheme">fbYOUR_FACEBOOK_APP_ID</string>
+    
     <!-- Main Screen -->
     <string name="main_title">Credit Card Payment Optimizer</string>
     <string name="loading_connecting">Connecting to your bank…</string>
@@ -127,6 +132,7 @@
     
     <!-- MFA - Onboarding -->
     <string name="mfa_onboarding_title">Secure Your Account</string>
+    <string name="mfa_onboarding_subtitle">Add extra security layers to protect your financial data</string>
     <string name="mfa_onboarding_skip">Skip for now</string>
     <string name="mfa_intro_title">Secure Your Financial Data</string>
     <string name="mfa_intro_description">Add extra security layers to protect your credit card information and bank connections.</string>
@@ -134,37 +140,60 @@
     
     <!-- MFA - Biometric -->
     <string name="mfa_biometric_title">Biometric Authentication</string>
+    <string name="mfa_onboarding_biometric_title">Biometric Authentication</string>
+    <string name="mfa_onboarding_biometric_supported">Your device supports biometric authentication!</string>
     <string name="mfa_biometric_available">Your device supports biometric authentication!</string>
     <string name="mfa_biometric_benefit_1">✓ Quick unlock (no password needed)</string>
+    <string name="mfa_onboarding_biometric_benefit_1">✓ Quick unlock (no password needed)</string>
     <string name="mfa_biometric_benefit_2">✓ Secure (biometric data never leaves your device)</string>
+    <string name="mfa_onboarding_biometric_benefit_2">✓ Secure (biometric data never leaves your device)</string>
     <string name="mfa_biometric_benefit_3">✓ Convenient (touch or glance to authenticate)</string>
+    <string name="mfa_onboarding_biometric_benefit_3">✓ Convenient (touch or glance to authenticate)</string>
     <string name="mfa_biometric_enabled">Biometric Enabled</string>
+    <string name="mfa_onboarding_biometric_enabled">Biometric Enabled</string>
     <string name="mfa_biometric_enable">Enable Biometric</string>
+    <string name="mfa_onboarding_biometric_enable">Enable Biometric</string>
     <string name="mfa_biometric_active">Biometric authentication is now active!</string>
+    <string name="mfa_onboarding_biometric_success">Biometric authentication is now active!</string>
     <string name="mfa_biometric_not_enrolled_title">⚠️ No Biometrics Enrolled</string>
+    <string name="mfa_onboarding_biometric_no_enrolled">No biometrics enrolled on this device</string>
     <string name="mfa_biometric_not_enrolled_desc">To use biometric authentication, please:</string>
+    <string name="mfa_onboarding_biometric_instructions">To use biometric authentication, please:</string>
     <string name="mfa_biometric_not_enrolled_step1">1. Go to Settings > Security</string>
+    <string name="mfa_onboarding_biometric_step_1">1. Go to Settings > Security</string>
     <string name="mfa_biometric_not_enrolled_step2">2. Add a fingerprint or face</string>
+    <string name="mfa_onboarding_biometric_step_2">2. Add a fingerprint or face</string>
     <string name="mfa_biometric_not_enrolled_step3">3. Come back to enable biometric auth</string>
+    <string name="mfa_onboarding_biometric_step_3">3. Come back to enable biometric auth</string>
     <string name="mfa_biometric_no_hardware">Your device doesn\'t support biometric authentication</string>
+    <string name="mfa_onboarding_biometric_unsupported">Your device doesn\'t support biometric authentication</string>
     <string name="mfa_biometric_alternative">You can use hardware keys or passkeys instead</string>
+    <string name="mfa_onboarding_biometric_alternatives">You can use hardware keys or passkeys instead</string>
     <string name="mfa_biometric_unavailable">Biometric authentication is currently unavailable</string>
+    <string name="mfa_onboarding_biometric_unavailable">Biometric authentication is currently unavailable</string>
     
     <!-- MFA - Hardware Keys -->
     <string name="mfa_hardware_title">Hardware Security Keys</string>
+    <string name="mfa_onboarding_hardware_title">Hardware Security Keys</string>
     <string name="mfa_hardware_description">Add an extra layer of security with FIDO2-compatible hardware keys like Yubikey.</string>
+    <string name="mfa_onboarding_hardware_subtitle">FIDO2-compatible security keys (Yubikey, Google Titan, etc.)</string>
     <string name="mfa_hardware_supported_title">Supported Hardware:</string>
+    <string name="mfa_onboarding_hardware_supported">Supports Yubikey, Google Titan, and any FIDO2/WebAuthn key</string>
     <string name="mfa_hardware_yubikey">✓ Yubikey (all models)</string>
     <string name="mfa_hardware_titan">✓ Google Titan Security Key</string>
     <string name="mfa_hardware_feitian">✓ Feitian ePass FIDO</string>
     <string name="mfa_hardware_any">✓ Any FIDO2/WebAuthn key</string>
     <string name="mfa_hardware_recommended_title">💡 Recommended For:</string>
+    <string name="mfa_onboarding_hardware_recommended">Recommended for high-value transactions and security settings</string>
     <string name="mfa_hardware_recommended_1">• High-value transactions</string>
     <string name="mfa_hardware_recommended_2">• Adding/removing cards</string>
     <string name="mfa_hardware_recommended_3">• Changing security settings</string>
     <string name="mfa_hardware_enabled">Hardware Key Enabled</string>
+    <string name="mfa_onboarding_hardware_enabled">Hardware Key Enabled</string>
     <string name="mfa_hardware_enable">Enable Hardware Keys</string>
+    <string name="mfa_onboarding_hardware_enable">Enable Hardware Keys</string>
     <string name="mfa_hardware_active">Hardware key support enabled! You can register your key in Settings.</string>
+    <string name="mfa_onboarding_hardware_enabled_message">Hardware key support enabled! You can register your key in Settings.</string>
     <string name="mfa_hardware_register">Register Hardware Key</string>
     
     <!-- MFA - Passkeys -->
@@ -174,12 +203,22 @@
     
     <!-- MFA - Summary -->
     <string name="mfa_summary_title">Security Setup Complete!</string>
+    <string name="mfa_onboarding_complete_title">Security Setup Complete!</string>
     <string name="mfa_summary_features_title">Enabled Security Features:</string>
+    <string name="mfa_onboarding_complete_enabled_features">Enabled Security Features:</string>
     <string name="mfa_summary_none">No additional security enabled (you can enable later in Settings)</string>
+    <string name="mfa_onboarding_complete_no_features">No additional security enabled (you can enable later in Settings)</string>
+    <string name="mfa_onboarding_complete_feature_biometric">Biometric Authentication</string>
+    <string name="mfa_onboarding_complete_feature_hardware">Hardware Security Keys</string>
+    <string name="mfa_onboarding_complete_feature_passkeys">Passkeys</string>
     <string name="mfa_summary_customize_title">💡 You can customize security levels in Settings:</string>
+    <string name="mfa_onboarding_complete_customize_hint">💡 You can customize security levels in Settings:</string>
     <string name="mfa_summary_customize_1">• Set different requirements for different actions</string>
+    <string name="mfa_onboarding_complete_customize_1">• Set different requirements for different actions</string>
     <string name="mfa_summary_customize_2">• Enable/disable MFA methods anytime</string>
+    <string name="mfa_onboarding_complete_customize_2">• Enable/disable MFA methods anytime</string>
     <string name="mfa_summary_customize_3">• View tutorial again from Settings</string>
+    <string name="mfa_onboarding_complete_customize_3">• View tutorial again from Settings</string>
     <string name="mfa_summary_complete">Complete Setup</string>
     
     <!-- MFA - Settings -->
@@ -189,11 +228,22 @@
     <string name="mfa_status_enabled_format">Enabled: %1$s</string>
     <string name="mfa_status_password_only">Your account is protected by password only</string>
     <string name="mfa_methods_title">Authentication Methods</string>
+    <string name="mfa_settings_auth_methods">Authentication Methods</string>
     <string name="mfa_biometric_subtitle">Fingerprint or Face</string>
     <string name="mfa_hardware_subtitle">Yubikey, Google Titan, etc.</string>
     <string name="mfa_security_levels_title">Security Levels per Action</string>
+    <string name="mfa_settings_security_levels">Security Levels</string>
     <string name="mfa_security_levels_description">Configure what authentication is required for sensitive actions</string>
+    <string name="mfa_settings_security_levels_desc">Configure authentication requirements for sensitive actions</string>
     <string name="mfa_tutorial_button">View Setup Tutorial Again</string>
+    <string name="mfa_settings_biometric_title">Biometric</string>
+    <string name="mfa_settings_biometric_type">Fingerprint / Face ID</string>
+    <string name="mfa_settings_not_available">Not Available</string>
+    <string name="mfa_settings_hardware_title">Hardware Keys</string>
+    <string name="mfa_settings_hardware_desc">FIDO2 security keys</string>
+    <string name="mfa_settings_passkey_title">Passkeys</string>
+    <string name="mfa_settings_passkey_desc">Passwordless authentication</string>
+    <string name="mfa_settings_choose_level">Choose Security Level</string>
     
     <!-- MFA - Security Levels -->
     <string name="security_level_none">None</string>
@@ -255,4 +305,68 @@
     
     <!-- Error States -->
     <string name="error_something_wrong">Something went wrong</string>
+    
+    <!-- Privacy & Security -->
+    <string name="privacy_settings_title">Privacy &amp; Security</string>
+    <string name="privacy_data_usage_title">Data We Use</string>
+    <string name="privacy_data_usage_intro">This app stores locally on your device:</string>
+    <string name="privacy_data_item_1">• Credit card balances and limits</string>
+    <string name="privacy_data_item_2">• Statement and due dates</string>
+    <string name="privacy_data_item_3">• Issuer names (e.g., Chase, Amex)</string>
+    <string name="privacy_data_item_4">• Your calculated payment cycles</string>
+    <string name="privacy_not_collected_title">We do NOT collect:</string>
+    <string name="privacy_not_collected_1">• Purchase categories or transaction details</string>
+    <string name="privacy_not_collected_2">• Your identity or personal info</string>
+    <string name="privacy_not_collected_3">• Usage analytics (unless you opt-in below)</string>
+    
+    <string name="privacy_export_title">Export Data</string>
+    <string name="privacy_export_desc">Save your cards and cycles as JSON</string>
+    <string name="privacy_export_button">Export</string>
+    <string name="privacy_export_success">Export completed</string>
+    <string name="privacy_export_in_progress">Exporting…</string>
+    <string name="privacy_export_failed">Export failed: %1$s</string>
+    
+    <string name="privacy_delete_title">Delete All Data</string>
+    <string name="privacy_delete_desc">Permanently wipes all local data, caches, and settings</string>
+    <string name="privacy_delete_button">Delete</string>
+    <string name="privacy_delete_success">All data deleted</string>
+    <string name="privacy_delete_in_progress">Deleting…</string>
+    <string name="privacy_delete_failed">Delete failed: %1$s</string>
+    
+    <string name="privacy_telemetry_title">Self-Hosted Analytics</string>
+    <string name="privacy_telemetry_desc_off">Send anonymous usage to your own server (advanced)</string>
+    <string name="privacy_telemetry_desc_on">Sending to: %1$s</string>
+    <string name="privacy_telemetry_preview">Preview Payload</string>
+    <string name="privacy_telemetry_warning">⚠️ Default OFF. No third-party analytics. Only minimal, non-PII events.</string>
+    
+    <string name="privacy_docs_title">Documentation</string>
+    <string name="privacy_docs_policy">Privacy Policy</string>
+    <string name="privacy_docs_security">Security Documentation</string>
+    
+    <string name="dialog_delete_title">Delete All Data?</string>
+    <string name="dialog_delete_intro">This will permanently delete:</string>
+    <string name="dialog_delete_item_1">• All credit cards</string>
+    <string name="dialog_delete_item_2">• All payment cycles</string>
+    <string name="dialog_delete_item_3">• All balances and history</string>
+    <string name="dialog_delete_item_4">• Encrypted preferences</string>
+    <string name="dialog_delete_item_5">• All cached data</string>
+    <string name="dialog_delete_confirm_prompt">Type DELETE to confirm:</string>
+    <string name="dialog_delete_confirm_text">DELETE</string>
+    <string name="dialog_delete_button">Delete All</string>
+    
+    <string name="dialog_telemetry_title">Configure Self-Hosted Analytics</string>
+    <string name="dialog_telemetry_url_label">Endpoint URL</string>
+    <string name="dialog_telemetry_url_placeholder">https://analytics.example.com/events</string>
+    <string name="dialog_telemetry_url_error">Must use HTTPS</string>
+    <string name="dialog_telemetry_rate_label">Sample Rate (0.0 - 1.0)</string>
+    <string name="dialog_telemetry_warning">⚠️ Only minimal, anonymous events will be sent (screen views, actions). No financial data or PII.</string>
+    <string name="dialog_telemetry_enable">Enable</string>
+    
+    <string name="dialog_preview_title">Telemetry Payload Preview</string>
+    <string name="dialog_preview_intro">This is what we send to your endpoint:</string>
+    <string name="button_close">Close</string>
+    
+    <string name="biometric_delete_title">Confirm Data Deletion</string>
+    <string name="biometric_delete_subtitle">This will permanently delete all local data</string>
+    <string name="biometric_auth_failed">Authentication failed</string>
 </resources>
