@@ -162,13 +162,13 @@ class NotificationService(private val context: Context) {
     private fun scheduleNotification(recommendation: PaymentRecommendation, daysUntil: Long) {
         val notificationDate = recommendation.recommendedPaymentDate.minusDays(daysUntil)
         val now = LocalDate.now()
-        
+
         if (notificationDate.isBefore(now)) {
             return // Don't schedule past notifications
         }
-        
-        // Use WorkManager to schedule (implemented in PaymentReminderWorker)
-        PaymentReminderWorker.schedule(
+
+        // Schedule notification using WorkManager
+        im.ilyk.ccoptimizer.workers.PaymentReminderWorker.schedule(
             context,
             recommendation,
             notificationDate
@@ -179,14 +179,22 @@ class NotificationService(private val context: Context) {
      * Cancel all notifications for a card
      */
     fun cancelNotifications(cardId: String) {
+        // Cancel active notification
         notificationManager.cancel(NOTIFICATION_ID_BASE + cardId.hashCode())
+
+        // Cancel scheduled work for this card
+        im.ilyk.ccoptimizer.workers.PaymentReminderWorker.cancelForCard(context, cardId)
     }
-    
+
     /**
      * Cancel all notifications
      */
     fun cancelAllNotifications() {
+        // Cancel all active notifications
         notificationManager.cancelAll()
+
+        // Cancel all scheduled work
+        im.ilyk.ccoptimizer.workers.PaymentReminderWorker.cancelAll(context)
     }
     
     /**
