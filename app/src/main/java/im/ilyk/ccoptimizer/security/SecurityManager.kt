@@ -3,6 +3,7 @@ package im.ilyk.ccoptimizer.security
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import im.ilyk.ccoptimizer.BuildConfig
 import java.io.File
 import java.security.MessageDigest
 
@@ -10,6 +11,42 @@ import java.security.MessageDigest
  * Central security manager for app security checks
  */
 object SecurityManager {
+
+    /**
+     * Valid app signing certificate hashes (SHA-256)
+     *
+     * RELEASE SIGNATURE SETUP:
+     * ------------------------
+     * To get your release signing certificate hash, run ONE of these commands:
+     *
+     * Option 1 - From your keystore file:
+     *   keytool -list -v -keystore your-release.keystore -alias your-alias | grep "SHA-256" | cut -d ":" -f2- | tr -d ' ' | tr '[:upper:]' '[:lower:]'
+     *
+     * Option 2 - From installed app (after first upload to Play Store):
+     *   Play Console > App Integrity > App Signing > SHA-256 certificate fingerprint
+     *   (Remove colons from the fingerprint)
+     *
+     * Option 3 - From APK file:
+     *   keytool -printcert -jarfile app-release.apk | grep "SHA-256" | cut -d ":" -f2- | tr -d ' ' | tr '[:upper:]' '[:lower:]'
+     *
+     * Then replace "REPLACE_WITH_ACTUAL_RELEASE_SHA256_HASH" below with the actual hash.
+     *
+     * WARNING: In production, you MUST replace the placeholder with your actual signing certificate hash.
+     * Without this, the app security checks will fail on release builds.
+     */
+    private val VALID_SIGNATURES = buildList {
+        // Debug signature (only checked in debug builds)
+        if (BuildConfig.DEBUG) {
+            // Debug signatures vary by machine, so we skip validation in debug
+            add("debug_signature_not_validated")
+        }
+
+        // Release signature - REQUIRED for production
+        // TODO: Replace this placeholder with your actual release signing certificate SHA-256 hash
+        if (!BuildConfig.DEBUG) {
+            add("REPLACE_WITH_ACTUAL_RELEASE_SHA256_HASH")
+        }
+    }
     
     /**
      * Performs comprehensive security checks
@@ -130,13 +167,23 @@ object SecurityManager {
             val md = MessageDigest.getInstance("SHA-256")
             val digest = md.digest(signature.toByteArray())
             val signatureHash = digest.joinToString("") { "%02x".format(it) }
-            
-            // TODO: In production, compare against your actual release signature hash
-            // For now, we just check if signature exists
-            // val KNOWN_GOOD_SIGNATURE = "your_release_signature_sha256_hash_here"
-            // return signatureHash != KNOWN_GOOD_SIGNATURE
-            
-            return false
+
+            // In debug builds, skip validation (debug signatures vary by machine)
+            if (BuildConfig.DEBUG) {
+                return false
+            }
+
+            // In release builds, validate against known good signatures
+            val isValid = VALID_SIGNATURES.contains(signatureHash)
+
+            if (!isValid) {
+                android.util.Log.e(
+                    "SecurityManager",
+                    "App signature mismatch! Expected one of $VALID_SIGNATURES but got $signatureHash"
+                )
+            }
+
+            return !isValid
         } catch (e: Exception) {
             // Error checking signature = assume tampered
             return true
