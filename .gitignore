@@ -264,6 +264,8 @@ temp/
 # ================================
 # Note: Certificate pins in local.properties are gitignored
 # Public pins can be shared, but we extract them at build time
+*.crt
+backend/certs/
 
 # ================================
 # DOCUMENTATION (keep these)
@@ -293,6 +295,25 @@ junit.xml
 # CI/CD
 # ================================
 .github/workflows/*.log
+
+# ================================
+# TOOLING STATE
+# ================================
+.agent/
+.brain/
+.claude/
+.mcp.json
+STATUS.txt
+FINAL_STATUS.txt
+
+# Migration staging (not ready for main)
+.migration-staging/
+
+# Well-known
+.well-known/
+
+# Patent documents (confidential)
+*.pdf
 
 # ================================
 # MISC
