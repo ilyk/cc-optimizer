@@ -11,7 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DATABASE_URL=postgresql://ccuser:${DB_PASSWORD}@db:5432/ccoptimizer
+      - DATABASE_URL=postgresql://ccuser:.7931505@db:5432/ccoptimizer
       - DB_TYPE=postgres
     env_file:
       - ../../backend/.env
@@ -28,7 +28,7 @@ services:
     environment:
       - POSTGRES_DB=ccoptimizer
       - POSTGRES_USER=ccuser
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-changeme}
+      - POSTGRES_PASSWORD=".7931505"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:

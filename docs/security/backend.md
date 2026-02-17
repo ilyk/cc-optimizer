@@ -135,6 +135,38 @@ function verifyWebhook(req) {
 - [ ] Generic error messages
 - [ ] Logging enabled
 
+## Known Dependency Vulnerabilities
+
+### validator.js URL Validation Bypass (CVE-2024-XXXXX)
+
+**Status**: Accepted Risk - Not Exploitable in This Application
+
+**Details**:
+- **Affected Package**: `validator@13.x` (dependency of `express-validator`)
+- **Vulnerability**: URL validation bypass in `isURL()` function
+- **Severity**: Moderate
+- **Fix Available**: No (as of Oct 2025)
+
+**Why We're Not Affected**:
+The application does not use the vulnerable `isURL()` function. Our validation code only uses:
+- `isEmail()` - Email validation
+- `isString()` - Type checking
+- `matches()` - Regex validation
+- `isInt()`, `isFloat()` - Numeric validation
+- `isBoolean()` - Boolean validation
+
+**Verification**:
+```bash
+# Search for isURL usage
+grep -r "isURL" backend/src/
+# Result: No matches
+```
+
+**Mitigation**:
+- Monitoring for security updates to validator.js
+- If URL validation becomes necessary, will implement custom validation using `new URL()` constructor
+- Regular dependency audits via `npm audit`
+
 ## Vulnerabilities Fixed
 
 | # | Vulnerability | Fix |
