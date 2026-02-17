@@ -12,7 +12,7 @@ class PlaidRepository {
       `INSERT INTO plaid_items (user_id, item_id, access_token) 
        VALUES ($1, $2, $3) 
        ON CONFLICT (item_id) 
-       DO UPDATE SET access_token = $3, updated_at = CURRENT_TIMESTAMP
+       DO UPDATE SET access_token = EXCLUDED.access_token, updated_at = CURRENT_TIMESTAMP
        RETURNING id, item_id, created_at`,
       [userId, itemId, encryptedToken]
     );
@@ -71,10 +71,13 @@ class PlaidRepository {
       mask,
       credit_limit,
       statement_date,
-      due_date,
-      auto_pay_enabled,
-      auto_pay_amount
+      due_date = null,  // Optional
+      auto_pay_enabled = false,  // Optional, default false
+      auto_pay_amount = null  // Optional
     } = cardData;
+
+    // Convert boolean to SQLite integer (0 or 1)
+    const autoPayEnabledInt = auto_pay_enabled ? 1 : 0;
 
     const result = await db.query(
       `INSERT INTO credit_cards 
@@ -82,16 +85,16 @@ class PlaidRepository {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        ON CONFLICT (user_id, account_id)
        DO UPDATE SET 
-         name = $3,
-         mask = $4,
-         credit_limit = $5,
-         statement_date = $6,
-         due_date = $7,
-         auto_pay_enabled = $8,
-         auto_pay_amount = $9,
+         name = excluded.name,
+         mask = excluded.mask,
+         credit_limit = excluded.credit_limit,
+         statement_date = excluded.statement_date,
+         due_date = excluded.due_date,
+         auto_pay_enabled = excluded.auto_pay_enabled,
+         auto_pay_amount = excluded.auto_pay_amount,
          updated_at = CURRENT_TIMESTAMP
        RETURNING *`,
-      [userId, account_id, name, mask, credit_limit, statement_date, due_date, auto_pay_enabled, auto_pay_amount]
+      [userId, account_id, name, mask, credit_limit, statement_date, due_date, autoPayEnabledInt, auto_pay_amount]
     );
 
     return result[0];
@@ -139,6 +142,92 @@ class PlaidRepository {
       'INSERT INTO webhook_logs (webhook_type, webhook_code, item_id, payload) VALUES ($1, $2, $3, $4)',
       [webhookType, webhookCode, itemId, JSON.stringify(payload)]
     );
+  }
+
+  /**
+   * Record a manual payment
+   * Stores as a transaction that will be merged with Plaid transactions
+   */
+  async recordManualPayment(userId, cardId, date, amountCents) {
+    // Insert or update the payment
+    await db.query(
+      `INSERT INTO manual_payments 
+       (user_id, account_id, payment_date, amount_cents, source)
+       VALUES ($1, $2, $3, $4, 'manual')
+       ON CONFLICT (user_id, account_id, payment_date, amount_cents)
+       DO UPDATE SET updated_at = CURRENT_TIMESTAMP`,
+      [userId, cardId, date, amountCents]
+    );
+    
+    // Fetch the payment record (SQLite RETURNING doesn't work well with ON CONFLICT)
+    const result = await db.query(
+      `SELECT id, account_id, payment_date, amount_cents, source
+       FROM manual_payments 
+       WHERE user_id = $1 AND account_id = $2 AND payment_date = $3 AND amount_cents = $4`,
+      [userId, cardId, date, amountCents]
+    );
+    
+    const payment = result[0];
+    
+    if (!payment) {
+      throw new Error('Failed to record payment');
+    }
+    
+    // Map database fields (snake_case) to API format (camelCase)
+    return {
+      id: String(payment.id),
+      cardId: payment.account_id,
+      date: payment.payment_date,
+      amountCents: payment.amount_cents,
+      source: payment.source
+    };
+  }
+
+  /**
+   * Get manual payments for a card
+   */
+  async getManualPayments(userId, cardId) {
+    const result = await db.query(
+      `SELECT *
+       FROM manual_payments 
+       WHERE user_id = $1 AND account_id = $2 
+       ORDER BY payment_date DESC`,
+      [userId, cardId]
+    );
+    
+    // Map database fields to API format
+    return result.map(payment => ({
+      id: payment.id.toString(),
+      cardId: payment.account_id,
+      date: payment.payment_date,
+      amountCents: payment.amount_cents,
+      source: payment.source
+    }));
+  }
+
+  /**
+   * Delete a manual payment
+   */
+  async deleteManualPayment(userId, paymentId) {
+    await db.query(
+      'DELETE FROM manual_payments WHERE id = $1 AND user_id = $2',
+      [paymentId, userId]
+    );
+  }
+
+  /**
+   * Get all manual payments for a user (for merging with transactions)
+   */
+  async getAllManualPayments(userId) {
+    const result = await db.query(
+      `SELECT id, account_id as "cardId", payment_date as date, amount_cents as "amountCents", source, created_at
+       FROM manual_payments 
+       WHERE user_id = $1 
+       ORDER BY payment_date DESC`,
+      [userId]
+    );
+    
+    return result;
   }
 }
 

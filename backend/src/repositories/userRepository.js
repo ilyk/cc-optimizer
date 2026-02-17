@@ -17,6 +17,22 @@ class UserRepository {
   }
 
   /**
+   * Create a new user from social authentication
+   */
+  async createUserFromSocialAuth(email, name, provider, providerUserId) {
+    // Create user with a placeholder password hash (won't be used for login)
+    const placeholderHash = await encryption.hashPassword('social-auth-placeholder-' + Date.now());
+    
+    const result = await db.query(
+      `INSERT INTO users (email, name, password_hash, auth_provider, provider_user_id) 
+       VALUES ($1, $2, $3, $4, $5) RETURNING id, email, name, created_at`,
+      [email, name, placeholderHash, provider, providerUserId]
+    );
+    
+    return result[0];
+  }
+
+  /**
    * Find user by email
    */
   async findByEmail(email) {
@@ -235,6 +251,45 @@ class UserRepository {
        SET biometric_enabled = $2`,
       [userId, enabled]
     );
+  }
+
+  // ========== Social Authentication Methods ==========
+
+  /**
+   * Link social provider to existing user
+   */
+  async linkSocialProvider(userId, provider, providerUserId) {
+    await db.query(
+      `UPDATE users 
+       SET auth_provider = $2, provider_user_id = $3, updated_at = CURRENT_TIMESTAMP 
+       WHERE id = $1`,
+      [userId, provider, providerUserId]
+    );
+  }
+
+  /**
+   * Unlink social provider from user
+   */
+  async unlinkSocialProvider(userId, provider) {
+    // Only unlink if the current provider matches
+    await db.query(
+      `UPDATE users 
+       SET auth_provider = NULL, provider_user_id = NULL, updated_at = CURRENT_TIMESTAMP 
+       WHERE id = $1 AND auth_provider = $2`,
+      [userId, provider]
+    );
+  }
+
+  /**
+   * Find user by social provider ID
+   */
+  async findByProviderId(provider, providerUserId) {
+    const result = await db.query(
+      'SELECT id, email, name, created_at FROM users WHERE auth_provider = $1 AND provider_user_id = $2',
+      [provider, providerUserId]
+    );
+    
+    return result[0];
   }
 }
 

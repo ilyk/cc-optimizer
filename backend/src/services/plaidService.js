@@ -31,7 +31,7 @@ class PlaidService {
    */
   async createLinkToken(userId) {
     try {
-      const response = await this.client.linkTokenCreate({
+      const linkTokenConfig = {
         user: {
           client_user_id: userId.toString(),
         },
@@ -39,15 +39,36 @@ class PlaidService {
         products: ['auth', 'transactions', 'liabilities'], // Added liabilities for statement dates
         country_codes: ['US'],
         language: 'en',
-        webhook: process.env.PLAID_WEBHOOK_URL,
-      });
+        // Android app configuration for OAuth redirects
+        android_package_name: 'im.ilyk.ccoptimizer',
+      };
+
+      // For mobile apps, DO NOT set redirect_uri - the Plaid SDK handles OAuth internally
+      // Only set redirect_uri if explicitly configured (for web apps)
+      if (process.env.PLAID_REDIRECT_URI) {
+        linkTokenConfig.redirect_uri = process.env.PLAID_REDIRECT_URI;
+        logger.debug(`Using redirect URI: ${process.env.PLAID_REDIRECT_URI}`);
+      } else {
+        logger.debug('No redirect URI configured - using Plaid SDK default (mobile app)');
+      }
+
+      // Only add webhook if it's properly configured (optional for sandbox)
+      if (process.env.PLAID_WEBHOOK_URL && 
+          process.env.PLAID_WEBHOOK_URL.startsWith('http')) {
+        linkTokenConfig.webhook = process.env.PLAID_WEBHOOK_URL;
+        logger.debug(`Using webhook URL: ${process.env.PLAID_WEBHOOK_URL}`);
+      } else {
+        logger.debug('No webhook URL configured (optional for sandbox)');
+      }
+
+      const response = await this.client.linkTokenCreate(linkTokenConfig);
 
       return {
         link_token: response.data.link_token,
         expiration: response.data.expiration,
       };
     } catch (error) {
-      logger.error('Error creating link token:', error);
+      logger.error('Error creating link token:', error.response?.data || error.message);
       throw error;
     }
   }
@@ -242,7 +263,7 @@ class PlaidService {
   /**
    * Fetch accounts for a single item (helper for parallel processing)
    */
-  async fetchAccountsForItem(item) {
+  async fetchAccountsForItem(item, userId) {
     try {
       const tokenData = await plaidRepository.getAccessToken(item.item_id);
       
@@ -252,19 +273,28 @@ class PlaidService {
       }
       
       // Fetch institution data for branding (logo, color)
+      // First, get the institution_id from the item
       let institutionData = null;
+      let institutionId = null;
+      
       try {
-        const institutionResponse = await this.client.institutionsGetById({
-          institution_id: item.institution_id,
-          country_codes: ['US'],
-          options: {
-            include_optional_metadata: true
-          }
-        });
-        institutionData = institutionResponse.data.institution;
-        logger.debug(`Fetched institution data for ${institutionData.name}`);
+        // Get item details to fetch institution_id
+        const itemResponse = await this.client.itemGet({ access_token: tokenData.accessToken });
+        institutionId = itemResponse.data.item.institution_id;
+        
+        if (institutionId) {
+          const institutionResponse = await this.client.institutionsGetById({
+            institution_id: institutionId,
+            country_codes: ['US'],
+            options: {
+              include_optional_metadata: true
+            }
+          });
+          institutionData = institutionResponse.data.institution;
+          logger.debug(`Fetched institution data for ${institutionData.name}`);
+        }
       } catch (error) {
-        logger.warn(`Failed to fetch institution data for ${item.institution_id}:`, error.message);
+        logger.warn(`Failed to fetch institution data: ${error.message}`);
         // Continue without institution data
       }
 
@@ -323,13 +353,60 @@ class PlaidService {
             cc => cc.account_id === account.account_id
           );
 
-          // Pass account info to LLM for better context
-          const accountInfo = {
-            name: account.name,
-            bankName: account.official_name || account.name
-          };
+          // Check for manually saved statement date first
+          const savedCard = await plaidRepository.getCreditCard(userId, account.account_id);
+          let finalStatementDay = null;
           
-          const analyzedStatementDay = await this.analyzeStatementPattern(txList, account.account_id, accountInfo);
+          if (savedCard && savedCard.statement_date) {
+            // Use manually saved statement date
+            finalStatementDay = savedCard.statement_date;
+            logger.info(`Using saved statement date ${finalStatementDay} for account ${account.account_id}`);
+          } else {
+            // Analyze from transactions if no saved date
+            const accountInfo = {
+              name: account.name,
+              bankName: account.official_name || account.name
+            };
+            
+            finalStatementDay = await this.analyzeStatementPattern(txList, account.account_id, accountInfo);
+          }
+
+          // **Epic 4: Get manual payments for this card**
+          const manualPayments = await plaidRepository.getManualPayments(userId, account.account_id);
+          
+          // Calculate total manual payments (for current cycle or all time)
+          const totalManualPaymentsCents = manualPayments.reduce((sum, p) => sum + p.amountCents, 0);
+          const totalManualPayments = totalManualPaymentsCents / 100;
+          
+          // Calculate adjusted balance (current balance - manual payments)
+          const currentBalance = account.balances.current || 0;
+          const adjustedBalance = Math.max(0, currentBalance - totalManualPayments);
+          
+          if (manualPayments.length > 0) {
+            logger.info(
+              `Card ${account.account_id}: ${manualPayments.length} manual payments found. ` +
+              `Total: $${totalManualPayments}, Current: $${currentBalance}, Adjusted: $${adjustedBalance}`
+            );
+          }
+
+          // **SAVE CARD TO DATABASE** for manual payment foreign key validation
+          // This ensures credit_cards table is always up-to-date with Plaid data
+          try {
+            await plaidRepository.saveCreditCard(userId, {
+              account_id: account.account_id,
+              name: account.name,
+              mask: account.mask,
+              credit_limit: Math.round((account.balances.limit || 0) * 100), // Convert to cents
+              statement_date: finalStatementDay,
+              due_date: liability?.next_payment_due_date || null,
+              auto_pay_enabled: false,  // Will be 0 in SQLite
+              auto_pay_amount: null
+            });
+            logger.debug(`Saved card ${account.account_id} to credit_cards table`);
+          } catch (saveError) {
+            logger.error(`Failed to save card ${account.account_id} to database:`, saveError);
+            // Don't fail the whole sync if save fails
+          }
 
           return {
             accountId: account.account_id,
@@ -342,16 +419,26 @@ class PlaidService {
               available: account.balances.available,
               current: account.balances.current,
               limit: account.balances.limit,
+              // **Epic 4: Add manual payment info**
+              manualPaymentsTotal: totalManualPayments,
+              adjustedCurrent: adjustedBalance,  // Balance after manual payments
             },
             liability: liability ? {
               lastStatementDate: liability.last_statement_issue_date,
               nextPaymentDueDate: liability.next_payment_due_date,
               lastStatementBalance: liability.last_statement_balance,
               minimumPaymentAmount: liability.minimum_payment_amount,
-              recurringStatementDay: analyzedStatementDay,
+              recurringStatementDay: finalStatementDay,
             } : {
-              recurringStatementDay: analyzedStatementDay,
+              recurringStatementDay: finalStatementDay,
             },
+            // **Epic 4: Add manual payment details**
+            manualPayments: manualPayments.map(p => ({
+              id: p.id,
+              date: p.date,
+              amountCents: p.amountCents,
+              source: p.source
+            })),
             // Add institution branding for card artwork
             institution: institutionData ? {
               institutionId: institutionData.institution_id,
@@ -386,7 +473,7 @@ class PlaidService {
 
       // Process all items in parallel (massive performance improvement)
       const accountArrays = await Promise.all(
-        items.map(item => this.fetchAccountsForItem(item))
+        items.map(item => this.fetchAccountsForItem(item, userId))
       );
 
       // Flatten arrays and return

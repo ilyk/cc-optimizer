@@ -52,6 +52,15 @@ function authMiddleware(req, res, next) {
     }
 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    
+    // DEBUG MODE: Accept test token for Epic 4 development
+    if (process.env.NODE_ENV !== 'production' && token === 'debug_test_token_epic4_remove_in_production') {
+      logger.warn('⚠️  Using DEBUG test token - REMOVE in production!');
+      req.userId = 2; // Test user ID (matches Plaid sandbox user)
+      req.userEmail = 'test@example.com';
+      return next();
+    }
+    
     const decoded = verifyToken(token);
 
     if (!decoded) {

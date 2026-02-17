@@ -1,5 +1,5 @@
 const OpenAI = require('openai');
-const Anthropic = require('anthropic');
+const Anthropic = require('@anthropic-ai/sdk');
 const logger = require('../utils/logger');
 
 /**
@@ -130,8 +130,8 @@ Response format: Just the number (e.g., "18") or "UNKNOWN"`;
           content: prompt
         }
       ],
-      temperature: 0, // Deterministic
-      max_tokens: 10, // Just need a number
+      // Note: Removed temperature:0 as newer models only support default (1)
+      max_completion_tokens: 10, // Just need a number (renamed in newer OpenAI models)
     });
 
     const result = response.choices[0]?.message?.content?.trim();

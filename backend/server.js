@@ -59,7 +59,7 @@ app.use(cors({
 app.use('/api/plaid/webhook', express.raw({ type: '*/*', limit: '256kb' }));
 
 // Body parsing with limits
-app.use(express.json({ limit: '512kb', strict: true }));
+app.use(express.json({ limit: '512kb', strict: false }));
 app.use(express.urlencoded({ extended: false, limit: '256kb' }));
 
 // Enforce application/json on state-changing endpoints
@@ -107,6 +107,10 @@ apiV1.use('/security', securityRoutes);
 const mfaRoutes = require('./src/routes/mfa');
 apiV1.use('/mfa', mfaRoutes);
 
+// Sync routes (Epic 2 Story 2.3)
+const syncRoutes = require('./src/routes/sync');
+apiV1.use('/sync', syncRoutes);
+
 // =============================================================================
 // AUTH ROUTES (v1)
 // =============================================================================
@@ -137,6 +141,10 @@ apiV1.get('/auth/profile', authMiddleware, asyncHandler(async (req, res) => {
   res.json(profile);
 }));
 
+// Social authentication routes
+const socialAuthRoutes = require('./src/routes/socialAuth');
+apiV1.use('/auth', socialAuthRoutes);
+
 // =============================================================================
 // PLAID ROUTES (v1)
 // =============================================================================
@@ -159,29 +167,100 @@ apiV1.post('/plaid/exchange_public_token', authMiddleware, plaidLimiter, exchang
 }));
 
 /**
- * Get Accounts (with smart rate limiting)
+ * OAuth callback for mobile apps
+ * Handles redirect from bank OAuth and redirects back to app
  */
-apiV1.get('/plaid/accounts', authMiddleware, plaidLimiter, smartRateLimit('accounts'), asyncHandler(async (req, res) => {
-  // Use smart rate limit strategy from middleware
-  const strategy = req.rateLimit?.strategy || 'normal';
-  const accounts = await plaidService.getAccounts(req.userId, strategy);
-  
-  // Add cache headers based on strategy
-  if (strategy === 'cache-only' || strategy === 'stale-while-revalidate') {
-    res.setHeader('X-Cache-Strategy', strategy);
-    res.setHeader('X-Rate-Limit-Info', req.rateLimit.reason);
+apiV1.get('/plaid/oauth/callback', asyncHandler(async (req, res) => {
+  try {
+    const { oauth_state_id, error } = req.query;
+    
+    if (error) {
+      // OAuth error - redirect to app with error
+      const appRedirectUrl = `plaidlink://oauth?error=${encodeURIComponent(error)}`;
+      return res.redirect(appRedirectUrl);
+    }
+    
+    // Success - redirect to app with state
+    const appRedirectUrl = `plaidlink://oauth?oauth_state_id=${oauth_state_id}`;
+    res.redirect(appRedirectUrl);
+  } catch (error) {
+    logger.error('OAuth callback error:', error);
+    const appRedirectUrl = `plaidlink://oauth?error=callback_error`;
+    res.redirect(appRedirectUrl);
   }
-  
-  res.json(accounts);
 }));
 
 /**
- * Get Transactions
+ * Get Accounts with Liabilities (Android app format)
+ */
+apiV1.get('/plaid/accounts', authMiddleware, plaidLimiter, smartRateLimit('accounts'), asyncHandler(async (req, res) => {
+  try {
+    // Use smart rate limit strategy from middleware
+    const strategy = req.rateLimit?.strategy || 'normal';
+    const accounts = await plaidService.getAccounts(req.userId, strategy);
+    
+    // Map to Android app format with liabilities
+    const mappedAccounts = accounts.map(account => ({
+      account_id: account.accountId,
+      name: account.name,
+      official_name: account.officialName,
+      type: account.type,
+      subtype: account.subtype,
+      balances: {
+        available: account.balances.available,
+        current: account.balances.current,
+        limit: account.balances.limit
+      },
+      liabilities: account.liability ? {
+        credit: [{
+          account_id: account.accountId,
+          aprs: account.liability.aprs || [],
+          last_statement_issue_date: account.liability.lastStatementDate,
+          last_statement_balance: account.liability.lastStatementBalance,
+          minimum_payment_amount: account.liability.minimumPaymentAmount,
+          next_payment_due_date: account.liability.nextPaymentDueDate
+        }]
+      } : null
+    }));
+    
+    // Add cache headers based on strategy
+    if (strategy === 'cache-only' || strategy === 'stale-while-revalidate') {
+      res.setHeader('X-Cache-Strategy', strategy);
+      res.setHeader('X-Rate-Limit-Info', req.rateLimit.reason);
+    }
+    
+    res.json({ accounts: mappedAccounts });
+  } catch (error) {
+    logger.error('Error fetching accounts:', error);
+    res.status(500).json({ error: 'Failed to fetch accounts' });
+  }
+}));
+
+/**
+ * Get Transactions (Android app format)
  */
 apiV1.post('/plaid/transactions', authMiddleware, plaidLimiter, transactionsValidation, asyncHandler(async (req, res) => {
   const { start_date, end_date } = req.body;
-  const result = await plaidService.getTransactions(req.userId, start_date, end_date);
-  res.json(result);
+  
+  try {
+    const result = await plaidService.getTransactions(req.userId, start_date, end_date);
+    
+    // Map to Android app format
+    const transactions = result.transactions.map(tx => ({
+      transaction_id: tx.transaction_id,
+      account_id: tx.account_id,
+      date: tx.date,
+      name: tx.name,
+      merchant_name: tx.merchant_name,
+      amount: tx.amount,
+      category: tx.category || []
+    }));
+    
+    res.json({ transactions });
+  } catch (error) {
+    logger.error('Error fetching transactions:', error);
+    res.status(500).json({ error: 'Failed to fetch transactions' });
+  }
 }));
 
 /**
@@ -198,11 +277,42 @@ apiV1.delete('/plaid/items/:itemId', authMiddleware, plaidLimiter, validateItemI
 // =============================================================================
 
 /**
- * Get all credit cards for user
+ * Get all credit cards for user (Android app format)
  */
 apiV1.get('/cards', authMiddleware, apiLimiter, asyncHandler(async (req, res) => {
-  const cards = await plaidRepository.getCreditCards(req.userId);
-  res.json(cards);
+  try {
+    // Get accounts from Plaid with full liability data
+    const accounts = await plaidService.getAccounts(req.userId);
+    
+    // Map to Android app format
+    const cards = accounts.map(account => ({
+      id: account.accountId,
+      externalId: account.accountId,
+      issuer: account.name,
+      network: mapNetwork(account.subtype),
+      balance: account.balances.current || 0,
+      minPayment: account.liability?.minimumPaymentAmount || 0,
+      creditLimit: account.balances.limit || 0,
+      aprPurchase: account.liability?.aprs?.[0]?.apr || 0,
+      aprCash: account.liability?.aprs?.find(a => a.apr_type === 'cash')?.apr || null,
+      statementClose: account.liability?.lastStatementDate ? 
+        new Date(account.liability.lastStatementDate).toISOString().split('T')[0] : null,
+      dueDate: account.liability?.nextPaymentDueDate ? 
+        new Date(account.liability.nextPaymentDueDate).toISOString().split('T')[0] : null,
+      hasPromo: false, // TODO: Implement promo detection
+      promoEnd: null,
+      promoBalance: 0,
+      utilization: account.balances.current && account.balances.limit ? 
+        account.balances.current / account.balances.limit : 0,
+      currency: 'USD',
+      autopayEnabled: false // TODO: Get from card configuration
+    }));
+    
+    res.json({ cards });
+  } catch (error) {
+    logger.error('Error fetching cards:', error);
+    res.status(500).json({ error: 'Failed to fetch credit cards' });
+  }
 }));
 
 /**
@@ -313,7 +423,7 @@ app.use(errorHandler);
 // SERVER INITIALIZATION
 // =============================================================================
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 12080;
 
 async function startServer() {
   try {
@@ -346,6 +456,21 @@ process.on('SIGINT', async () => {
   await db.close();
   process.exit(0);
 });
+
+/**
+ * Map Plaid account subtype to card network
+ */
+function mapNetwork(subtype) {
+  const networkMap = {
+    'credit card': 'VISA', // Default to VISA for credit cards
+    'visa': 'VISA',
+    'mastercard': 'MASTERCARD',
+    'amex': 'AMEX',
+    'discover': 'DISCOVER'
+  };
+  
+  return networkMap[subtype?.toLowerCase()] || 'VISA';
+}
 
 // Start the server
 startServer();

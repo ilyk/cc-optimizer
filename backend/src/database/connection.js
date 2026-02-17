@@ -86,6 +86,19 @@ class DatabaseConnection {
         item_id VARCHAR(255),
         payload TEXT,
         created_at ${this.type === 'postgres' ? 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP' : 'DATETIME DEFAULT CURRENT_TIMESTAMP'}
+      )`,
+      
+      `CREATE TABLE IF NOT EXISTS manual_payments (
+        id ${this.type === 'postgres' ? 'SERIAL PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT'},
+        user_id INTEGER NOT NULL,
+        account_id VARCHAR(255) NOT NULL,
+        payment_date DATE NOT NULL,
+        amount_cents INTEGER NOT NULL,
+        source VARCHAR(50) DEFAULT 'manual',
+        created_at ${this.type === 'postgres' ? 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP' : 'DATETIME DEFAULT CURRENT_TIMESTAMP'},
+        updated_at ${this.type === 'postgres' ? 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP' : 'DATETIME DEFAULT CURRENT_TIMESTAMP'},
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(user_id, account_id, payment_date, amount_cents)
       )`
     ];
 
@@ -97,7 +110,7 @@ class DatabaseConnection {
   }
 
   async query(sql, params = []) {
-    if (!this.initialized) {
+    if (!this.db) {
       await this.initialize();
     }
 
@@ -112,8 +125,28 @@ class DatabaseConnection {
           sqliteSQL.trim().toLowerCase().startsWith('returning')) {
         return this.db.prepare(sqliteSQL).all(...params);
       } else if (sqliteSQL.trim().toLowerCase().startsWith('insert')) {
-        const info = this.db.prepare(sqliteSQL).run(...params);
-        return [{ id: info.lastInsertRowid }];
+        // Check if query has RETURNING clause
+        if (sqliteSQL.toLowerCase().includes('returning')) {
+          // SQLite doesn't support RETURNING, so remove it and do a separate query
+          const sqlWithoutReturning = sqliteSQL.replace(/RETURNING.*/is, '').trim();
+          const info = this.db.prepare(sqlWithoutReturning).run(...params);
+          
+          // Get the inserted row
+          const returningMatch = sqliteSQL.match(/RETURNING\s+(.*?)$/is);
+          if (returningMatch) {
+            const columns = returningMatch[1].trim();
+            // For plaid_items, get by last insert rowid
+            if (sqlWithoutReturning.includes('plaid_items')) {
+              return this.db.prepare(`SELECT ${columns} FROM plaid_items WHERE id = ?`).all(info.lastInsertRowid);
+            } else if (sqlWithoutReturning.includes('credit_cards')) {
+              return this.db.prepare(`SELECT ${columns} FROM credit_cards WHERE id = ?`).all(info.lastInsertRowid);
+            }
+          }
+          return [{ id: info.lastInsertRowid }];
+        } else {
+          const info = this.db.prepare(sqliteSQL).run(...params);
+          return [{ id: info.lastInsertRowid }];
+        }
       } else {
         this.db.prepare(sqliteSQL).run(...params);
         return [];
