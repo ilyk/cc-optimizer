@@ -369,4 +369,80 @@
     <string name="biometric_delete_title">Confirm Data Deletion</string>
     <string name="biometric_delete_subtitle">This will permanently delete all local data</string>
     <string name="biometric_auth_failed">Authentication failed</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Credit Cycle</string>
+    <string name="home_menu_content_desc">Menu</string>
+    <string name="home_loading_cards">Loading your cards…</string>
+    <string name="home_no_cards_title">No Cards Connected</string>
+    <string name="home_no_cards_desc">Connect your credit cards to start tracking payment cycles and get smart payment recommendations.</string>
+    <string name="home_connect_cards_button">Connect Your Cards</string>
+    <string name="home_something_went_wrong">Something Went Wrong</string>
+    <string name="home_no_recommendations">No payment recommendations right now.</string>
+    <string name="home_setup_statement_dates">Set up statement dates to see payment recommendations.</string>
+    <string name="home_pay_by_label">PAY BY</string>
+    <string name="home_statement_closes">Statement closes: %1$s</string>
+    <string name="home_recommended_payment">Recommended payment</string>
+    <string name="home_mark_as_paid">Mark as Paid</string>
+    <string name="home_marked_as_paid_snackbar">Marked as paid — feature coming soon</string>
+    <string name="home_utilization_impact">Utilization Impact</string>
+    <string name="home_utilization_before">Before</string>
+    <string name="home_utilization_after">After</string>
+    <string name="home_cards_need_setup">%1$d card%2$s need%3$s statement date setup</string>
+    <string name="home_loading_cards_progress">%1$d / %2$d cards</string>
+
+    <!-- Timekeeper Chat Screen -->
+    <string name="chat_suggestion_when_to_pay">When to pay?</string>
+    <string name="chat_suggestion_optimization_tips">Optimization tips</string>
+    <string name="chat_suggestion_what_can_you_do">What can you do?</string>
+    <string name="chat_input_placeholder">Ask Timekeeper…</string>
+    <string name="chat_send_content_desc">Send</string>
+
+    <!-- Card Detail Screen -->
+    <string name="card_detail_default_name">Credit Card</string>
+    <string name="card_detail_payment_history">Payment History</string>
+    <string name="card_detail_no_payments">No manual payments recorded yet</string>
+    <string name="card_detail_balance_note">Balance shown is from your bank. Manual payments update within 24 hours.</string>
+    <string name="card_detail_mark_as_paid">Mark as Paid</string>
+    <string name="card_detail_payment_date_label">Payment Date</string>
+    <string name="card_detail_payment_date_placeholder">YYYY-MM-DD</string>
+    <string name="card_detail_date_error">Invalid date format</string>
+    <string name="card_detail_amount_label">Amount</string>
+    <string name="card_detail_amount_placeholder">0.00</string>
+    <string name="card_detail_amount_error">Invalid amount</string>
+    <string name="card_detail_close_content_desc">Close card details</string>
+    <string name="card_detail_select_date_content_desc">Select date</string>
+    <string name="card_detail_remove_payment_content_desc">Remove payment record</string>
+    <string name="card_detail_ok">OK</string>
+
+    <!-- Auth Screen -->
+    <string name="auth_welcome_back">Welcome Back</string>
+    <string name="auth_create_account">Create Account</string>
+    <string name="auth_sign_in_subtitle">Sign in to optimize your credit cards</string>
+    <string name="auth_create_account_subtitle">Get started with credit card optimization</string>
+    <string name="auth_full_name_label">Full Name</string>
+    <string name="auth_email_label">Email</string>
+    <string name="auth_password_label">Password</string>
+    <string name="auth_password_requirements">Password must contain uppercase, lowercase, and a number</string>
+    <string name="auth_sign_in_button">Sign In</string>
+    <string name="auth_create_account_button">Create Account</string>
+    <string name="auth_or_divider">OR</string>
+    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_sign_up_with_google">Sign up with Google</string>
+    <string name="auth_continue_with_facebook">Continue with Facebook</string>
+    <string name="auth_sign_up_with_facebook">Sign up with Facebook</string>
+    <string name="auth_debug_info_label">Debug info:</string>
+    <string name="auth_no_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="auth_have_account_sign_in">Already have an account? Sign in</string>
+    <string name="auth_hide_password_content_desc">Hide password</string>
+    <string name="auth_show_password_content_desc">Show password</string>
+
+    <!-- Loading Components -->
+    <string name="loading_optimizing_flow">Optimizing your flow…</string>
+
+    <!-- Delete Card Dialog -->
+    <string name="delete_card_title">Remove Card</string>
+    <string name="delete_card_confirm_message">Are you sure you want to remove this card?</string>
+    <string name="delete_card_undo_warning">This action cannot be undone. You\'ll need to reconnect your account to add it back.</string>
+    <string name="delete_card_confirm_button">Remove</string>
 </resources>

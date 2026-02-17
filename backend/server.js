@@ -111,6 +111,10 @@ apiV1.use('/mfa', mfaRoutes);
 const syncRoutes = require('./src/routes/sync');
 apiV1.use('/sync', syncRoutes);
 
+// Chat routes (Timekeeper AI)
+const chatRoutes = require('./src/routes/chat');
+apiV1.use('/chat', chatRoutes);
+
 // =============================================================================
 // AUTH ROUTES (v1)
 // =============================================================================

@@ -19,12 +19,25 @@ fun ErrorSnackbar(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
     error?.let { errorMessage ->
         LaunchedEffect(errorMessage) {
-            // Show error snackbar
-            // This would be integrated with SnackbarHost in the main app
+            val result = snackbarHostState.showSnackbar(
+                message = errorMessage,
+                actionLabel = "Dismiss",
+                duration = SnackbarDuration.Long
+            )
+            if (result == SnackbarResult.ActionPerformed || result == SnackbarResult.Dismissed) {
+                onDismiss()
+            }
         }
     }
+
+    SnackbarHost(
+        hostState = snackbarHostState,
+        modifier = modifier
+    )
 }
 
 @Composable

@@ -18,9 +18,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.ui.theme.NumericTypography
 
 /**
@@ -65,16 +67,17 @@ fun TimekeeperLoadingSkeleton(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(20.dp)
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp),
-            contentAlignment = Alignment.Center
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             // Get colors outside Canvas
             val outlineVariant = MaterialTheme.colorScheme.outlineVariant
             val primaryColor = MaterialTheme.colorScheme.primary
-            
+
             // Timekeeper loading animation
             Canvas(
                 modifier = Modifier.size(60.dp)
@@ -82,7 +85,7 @@ fun TimekeeperLoadingSkeleton(
                 val strokeWidth = 4.dp.toPx()
                 val radius = (size.minDimension - strokeWidth) / 2
                 val center = Offset(size.width / 2, size.height / 2)
-                
+
                 // Background circle
                 drawCircle(
                     color = outlineVariant,
@@ -90,7 +93,7 @@ fun TimekeeperLoadingSkeleton(
                     center = center,
                     style = Stroke(width = strokeWidth)
                 )
-                
+
                 // Rotating Timekeeper arc
                 drawArc(
                     brush = Brush.sweepGradient(
@@ -107,11 +110,11 @@ fun TimekeeperLoadingSkeleton(
                     style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Text(
-                text = "Optimizing your flow...",
+                text = stringResource(R.string.loading_optimizing_flow),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.alpha(alpha)

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -48,16 +49,16 @@ fun AuthScreen(
     ) {
         // Title
         Text(
-            text = if (isLoginMode) "Welcome Back" else "Create Account",
+            text = if (isLoginMode) stringResource(R.string.auth_welcome_back) else stringResource(R.string.auth_create_account),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
-        
+
         Spacer(modifier = Modifier.height(8.dp))
-        
+
         Text(
-            text = if (isLoginMode) "Sign in to optimize your credit cards" else "Get started with credit card optimization",
+            text = if (isLoginMode) stringResource(R.string.auth_sign_in_subtitle) else stringResource(R.string.auth_create_account_subtitle),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
@@ -88,7 +89,7 @@ fun AuthScreen(
                     if (parts.size > 1) {
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "Debug info:",
+                            text = stringResource(R.string.auth_debug_info_label),
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold
@@ -111,7 +112,7 @@ fun AuthScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Full Name") },
+                label = { Text(stringResource(R.string.auth_full_name_label)) },
                 leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isLoading,
@@ -124,7 +125,7 @@ fun AuthScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.auth_email_label)) },
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !isLoading,
@@ -138,13 +139,13 @@ fun AuthScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.auth_password_label)) },
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                        contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                        contentDescription = if (passwordVisible) stringResource(R.string.auth_hide_password_content_desc) else stringResource(R.string.auth_show_password_content_desc)
                     )
                 }
             },
@@ -159,7 +160,7 @@ fun AuthScreen(
         if (!isLoginMode) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Password must contain uppercase, lowercase, and a number",
+                text = stringResource(R.string.auth_password_requirements),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 16.dp)
@@ -190,7 +191,7 @@ fun AuthScreen(
                 Spacer(modifier = Modifier.width(8.dp))
             }
             Text(
-                text = if (isLoginMode) "Sign In" else "Create Account",
+                text = if (isLoginMode) stringResource(R.string.auth_sign_in_button) else stringResource(R.string.auth_create_account_button),
                 fontSize = 18.sp
             )
         }
@@ -210,7 +211,7 @@ fun AuthScreen(
                 color = MaterialTheme.colorScheme.outline
             )
             Text(
-                text = "OR",
+                text = stringResource(R.string.auth_or_divider),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -245,7 +246,7 @@ fun AuthScreen(
                 color = Color(0xFF4285F4) // Google blue
             )
             Text(
-                text = if (isLoginMode) "Continue with Google" else "Sign up with Google",
+                text = if (isLoginMode) stringResource(R.string.auth_continue_with_google) else stringResource(R.string.auth_sign_up_with_google),
                 fontSize = 16.sp
             )
         }
@@ -274,7 +275,7 @@ fun AuthScreen(
                 color = Color(0xFF1877F2) // Facebook blue
             )
             Text(
-                text = if (isLoginMode) "Continue with Facebook" else "Sign up with Facebook",
+                text = if (isLoginMode) stringResource(R.string.auth_continue_with_facebook) else stringResource(R.string.auth_sign_up_with_facebook),
                 fontSize = 16.sp
             )
         }
@@ -293,7 +294,7 @@ fun AuthScreen(
             enabled = !isLoading
         ) {
             Text(
-                text = if (isLoginMode) "Don't have an account? Sign up" else "Already have an account? Sign in",
+                text = if (isLoginMode) stringResource(R.string.auth_no_account_sign_up) else stringResource(R.string.auth_have_account_sign_in),
                 color = MaterialTheme.colorScheme.primary
             )
         }

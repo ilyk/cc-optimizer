@@ -16,12 +16,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import im.ilyk.ccoptimizer.R
 import im.ilyk.ccoptimizer.data.models.CreditCard
 import im.ilyk.ccoptimizer.ui.viewmodel.CardDetailViewModel
 import im.ilyk.ccoptimizer.ui.viewmodel.PaymentOperationState
@@ -102,7 +104,7 @@ fun CardDetailScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = card.bankName ?: "Credit Card",
+                                text = card.bankName ?: stringResource(R.string.card_detail_default_name),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold
                             )
@@ -112,7 +114,7 @@ fun CardDetailScreen(
                                     contentDescription = "Close card details"
                                 }
                             ) {
-                                Icon(Icons.Default.Close, contentDescription = "Close")
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.card_detail_close_content_desc))
                             }
                         }
                         Text(
@@ -180,7 +182,7 @@ fun CardDetailScreen(
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Text(
-                                        text = "Balance shown is from your bank. Manual payments update within 24 hours.",
+                                        text = stringResource(R.string.card_detail_balance_note),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
                                     )
@@ -192,16 +194,16 @@ fun CardDetailScreen(
                     // Payment history
                     item {
                         Text(
-                            text = "Payment History",
+                            text = stringResource(R.string.card_detail_payment_history),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    
+
                     if (payments.isEmpty()) {
                         item {
                             Text(
-                                text = "No manual payments recorded yet",
+                                text = stringResource(R.string.card_detail_no_payments),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                                 modifier = Modifier.padding(vertical = 16.dp)
@@ -286,27 +288,27 @@ fun MarkPaidSection(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Mark as Paid",
+                text = stringResource(R.string.card_detail_mark_as_paid),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
-            
+
             // Date input with picker
             OutlinedTextField(
                 value = dateString,
                 onValueChange = { },
                 readOnly = true,
-                label = { Text("Payment Date") },
-                placeholder = { Text("YYYY-MM-DD") },
+                label = { Text(stringResource(R.string.card_detail_payment_date_label)) },
+                placeholder = { Text(stringResource(R.string.card_detail_payment_date_placeholder)) },
                 isError = showDateError,
                 supportingText = if (showDateError) {
-                    { Text("Invalid date format") }
+                    { Text(stringResource(R.string.card_detail_date_error)) }
                 } else null,
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker = true }) {
                         Icon(
                             imageVector = Icons.Default.CalendarMonth,
-                            contentDescription = "Select date"
+                            contentDescription = stringResource(R.string.card_detail_select_date_content_desc)
                         )
                     }
                 },
@@ -329,12 +331,12 @@ fun MarkPaidSection(
                     amountString = it
                     showAmountError = false
                 },
-                label = { Text("Amount") },
-                placeholder = { Text("0.00") },
+                label = { Text(stringResource(R.string.card_detail_amount_label)) },
+                placeholder = { Text(stringResource(R.string.card_detail_amount_placeholder)) },
                 prefix = { Text("$") },
                 isError = showAmountError,
                 supportingText = if (showAmountError) {
-                    { Text("Invalid amount") }
+                    { Text(stringResource(R.string.card_detail_amount_error)) }
                 } else null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -382,7 +384,7 @@ fun MarkPaidSection(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    Text("Mark as Paid")
+                    Text(stringResource(R.string.card_detail_mark_as_paid))
                 }
             }
         }
@@ -415,12 +417,12 @@ fun MarkPaidSection(
                             showDatePicker = false
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.card_detail_ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDatePicker = false }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.button_cancel))
                     }
                 }
             ) {
@@ -491,7 +493,7 @@ fun PaymentItem(
                 ) {
                     Icon(
                         Icons.Default.Delete,
-                        contentDescription = "Remove",
+                        contentDescription = stringResource(R.string.card_detail_remove_payment_content_desc),
                         tint = MaterialTheme.colorScheme.error
                     )
                 }

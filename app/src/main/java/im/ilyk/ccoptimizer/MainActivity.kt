@@ -1,7 +1,6 @@
 package im.ilyk.ccoptimizer
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.compose.setContent
@@ -117,13 +116,15 @@ class MainActivity : ComponentActivity() {
 
                     // Load onboarding state on first composition
                     LaunchedEffect(Unit) {
-                        android.util.Log.d("MainActivity", "Loading onboarding state from DataStore")
-                        Toast.makeText(this@MainActivity, "Loading onboarding state...", Toast.LENGTH_SHORT).show()
+                        if (BuildConfig.DEBUG) {
+                            android.util.Log.d("MainActivity", "Loading onboarding state from DataStore")
+                        }
                         onboardingPreferences.hasCompletedOnboarding.collect { value ->
                             hasCompletedOnboarding = value
                             isOnboardingStateLoaded = true
-                            android.util.Log.d("MainActivity", "Onboarding state loaded: $value")
-                            Toast.makeText(this@MainActivity, "Onboarding state: $value", Toast.LENGTH_LONG).show()
+                            if (BuildConfig.DEBUG) {
+                                android.util.Log.d("MainActivity", "Onboarding state loaded: $value")
+                            }
                         }
                     }
 
@@ -161,51 +162,68 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 is im.ilyk.ccoptimizer.ui.viewmodel.AuthState.NotAuthenticated -> {
-                                    // Show AppNavigation directly - bypass authentication for demo
-                                    AppNavigation(
-                                        viewModel = viewModel,
-                                        onConnectPlaid = {
-                                            viewModel.initiatePlaidLink()
-                                        },
-                                        hasCompletedOnboarding = hasCompletedOnboarding,
-                                        onOnboardingComplete = {
-                                            // Mark onboarding as completed
-                                            android.util.Log.d(
-                                                "MainActivity",
-                                                "onOnboardingComplete called - saving to DataStore",
-                                            )
-                                            Toast.makeText(
-                                                this@MainActivity,
-                                                "Completing onboarding...",
-                                                Toast.LENGTH_SHORT,
-                                            ).show()
-                                            hasCompletedOnboarding = true // Update local state immediately
-                                            coroutineScope.launch {
-                                                onboardingPreferences.setOnboardingCompleted()
-                                                android.util.Log.d(
-                                                    "MainActivity",
-                                                    "onOnboardingCompleted saved to DataStore",
-                                                )
-                                                Toast.makeText(
-                                                    this@MainActivity,
-                                                    "Onboarding completed!",
-                                                    Toast.LENGTH_SHORT,
-                                                ).show()
-                                            }
-                                        },
-                                        onResetOnboarding = {
-                                            // Debug: Reset onboarding
-                                            android.util.Log.d(
-                                                "MainActivity",
-                                                "onResetOnboarding called - resetting DataStore",
-                                            )
-                                            hasCompletedOnboarding = false // Update local state immediately
-                                            coroutineScope.launch {
-                                                onboardingPreferences.resetOnboarding()
-                                                android.util.Log.d("MainActivity", "onboarding reset in DataStore")
-                                            }
-                                        },
-                                    )
+                                    if (BuildConfig.DEBUG) {
+                                        // Demo mode: bypass authentication
+                                        AppNavigation(
+                                            viewModel = viewModel,
+                                            onConnectPlaid = {
+                                                viewModel.initiatePlaidLink()
+                                            },
+                                            hasCompletedOnboarding = hasCompletedOnboarding,
+                                            onOnboardingComplete = {
+                                                // Mark onboarding as completed
+                                                if (BuildConfig.DEBUG) {
+                                                    android.util.Log.d(
+                                                        "MainActivity",
+                                                        "onOnboardingComplete called - saving to DataStore",
+                                                    )
+                                                }
+                                                hasCompletedOnboarding = true // Update local state immediately
+                                                coroutineScope.launch {
+                                                    onboardingPreferences.setOnboardingCompleted()
+                                                    if (BuildConfig.DEBUG) {
+                                                        android.util.Log.d(
+                                                            "MainActivity",
+                                                            "onOnboardingCompleted saved to DataStore",
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                            onResetOnboarding = {
+                                                if (BuildConfig.DEBUG) {
+                                                    android.util.Log.d(
+                                                        "MainActivity",
+                                                        "onResetOnboarding called - resetting DataStore",
+                                                    )
+                                                }
+                                                hasCompletedOnboarding = false // Update local state immediately
+                                                coroutineScope.launch {
+                                                    onboardingPreferences.resetOnboarding()
+                                                    if (BuildConfig.DEBUG) {
+                                                        android.util.Log.d("MainActivity", "onboarding reset in DataStore")
+                                                    }
+                                                }
+                                            },
+                                        )
+                                    } else {
+                                        // Production: show auth screen
+                                        AuthScreen(
+                                            onLogin = { email, password ->
+                                                authViewModel.login(email, password)
+                                            },
+                                            onRegister = { email, password, name ->
+                                                authViewModel.register(email, password, name)
+                                            },
+                                            onGoogleLogin = {
+                                                googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent())
+                                            },
+                                            onFacebookLogin = {
+                                                authViewModel.startFacebookLogin(this@MainActivity)
+                                            },
+                                            isLoading = false,
+                                            errorMessage = null,
+                                        )
+                                    }
                                 }
 
                                 is im.ilyk.ccoptimizer.ui.viewmodel.AuthState.Authenticated -> {
@@ -217,39 +235,36 @@ class MainActivity : ComponentActivity() {
                                         hasCompletedOnboarding = hasCompletedOnboarding,
                                         onOnboardingComplete = {
                                             // Mark onboarding as completed
-                                            android.util.Log.d(
-                                                "MainActivity",
-                                                "onOnboardingComplete called - saving to DataStore",
-                                            )
-                                            Toast.makeText(
-                                                this@MainActivity,
-                                                "Completing onboarding...",
-                                                Toast.LENGTH_SHORT,
-                                            ).show()
+                                            if (BuildConfig.DEBUG) {
+                                                android.util.Log.d(
+                                                    "MainActivity",
+                                                    "onOnboardingComplete called - saving to DataStore",
+                                                )
+                                            }
                                             hasCompletedOnboarding = true // Update local state immediately
                                             coroutineScope.launch {
                                                 onboardingPreferences.setOnboardingCompleted()
-                                                android.util.Log.d(
-                                                    "MainActivity",
-                                                    "onOnboardingCompleted saved to DataStore",
-                                                )
-                                                Toast.makeText(
-                                                    this@MainActivity,
-                                                    "Onboarding completed!",
-                                                    Toast.LENGTH_SHORT,
-                                                ).show()
+                                                if (BuildConfig.DEBUG) {
+                                                    android.util.Log.d(
+                                                        "MainActivity",
+                                                        "onOnboardingCompleted saved to DataStore",
+                                                    )
+                                                }
                                             }
                                         },
                                         onResetOnboarding = {
-                                            // Debug: Reset onboarding
-                                            android.util.Log.d(
-                                                "MainActivity",
-                                                "onResetOnboarding called - resetting DataStore",
-                                            )
+                                            if (BuildConfig.DEBUG) {
+                                                android.util.Log.d(
+                                                    "MainActivity",
+                                                    "onResetOnboarding called - resetting DataStore",
+                                                )
+                                            }
                                             hasCompletedOnboarding = false // Update local state immediately
                                             coroutineScope.launch {
                                                 onboardingPreferences.resetOnboarding()
-                                                android.util.Log.d("MainActivity", "onboarding reset in DataStore")
+                                                if (BuildConfig.DEBUG) {
+                                                    android.util.Log.d("MainActivity", "onboarding reset in DataStore")
+                                                }
                                             }
                                         },
                                     )

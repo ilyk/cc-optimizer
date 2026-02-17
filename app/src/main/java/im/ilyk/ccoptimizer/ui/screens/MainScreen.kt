@@ -82,7 +82,7 @@ fun MainScreen(
                         Text(
                             text = stringResource(R.string.loading_connecting),
                             style = MaterialTheme.typography.bodyLarge,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -188,7 +188,7 @@ fun NotConnectedView(onConnect: () -> Unit) {
         Text(
             text = stringResource(R.string.not_connected_description),
             style = MaterialTheme.typography.bodyLarge,
-            color = Color.Gray
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         
         Spacer(modifier = Modifier.height(32.dp))
@@ -308,7 +308,7 @@ fun RecommendationsView(
                     Text(
                         text = stringResource(R.string.main_refresh_hint),
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center
                     )
@@ -327,7 +327,7 @@ fun CardsNeedingInputSection(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFFFF9C4) // Light yellow/warning color
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -371,7 +371,7 @@ fun CardsNeedingInputSection(
             Text(
                 text = stringResource(R.string.main_setup_hint),
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
             )
         }
@@ -410,7 +410,7 @@ fun ErrorView(message: String, onRetry: () -> Unit) {
         Text(
             text = message,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         
         Spacer(modifier = Modifier.height(24.dp))
@@ -448,8 +448,8 @@ fun ModernTopBar(
             }
         },
         actions = {
-            // Debug: Reset onboarding button
-            if (onResetOnboarding != null) {
+            // Debug: Reset onboarding button (debug builds only)
+            if (BuildConfig.DEBUG && onResetOnboarding != null) {
                 IconButton(
                     onClick = onResetOnboarding,
                     modifier = Modifier.size(48.dp)
@@ -457,7 +457,7 @@ fun ModernTopBar(
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Reset Onboarding (Debug)",
-                        tint = Color.Red
+                        tint = MaterialTheme.colorScheme.error
                     )
                 }
             }
